@@ -1,9 +1,7 @@
 package com.bootcamp.magic.View
 
-import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.bootcamp.magic.Robots.withLoginActivity
-import org.junit.Rule
+import com.bootcamp.magic.Robots.withMainActivity
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -11,12 +9,11 @@ import org.junit.runner.RunWith
 
 class MainActivityTest{
 
-    @get:Rule
-    val activityRule = IntentsTestRule(MainActivity::class.java)
-
     @Test
     fun whenOpenActivity_shouldShowBottomTabs(){
-        withLoginActivity {
+        withMainActivity {
+
+        } initMainActivity {
 
         } checkIf {
             bottomTabIsDisplayed()
@@ -25,19 +22,25 @@ class MainActivityTest{
 
     @Test
     fun whenClickOnHome_shouldNavigateToHomeFragment(){
+        withMainActivity {
 
+        } initMainActivity {
+            clickFavoriteBottomTab()
+            clickHomeBottomTab()
+        } checkIf {
+            checkGoToHome()
+        }
     }
 
     @Test
     fun whenClickOnFavorite_shouldNavigateToFavoriteFragment(){
+        withMainActivity {
 
+        } initMainActivity {
+            clickFavoriteBottomTab()
+        } checkIf {
+            checkGoToFavorites()
+        }
     }
-
-    @Test
-    fun whenClickOnListItem_shouldNavigateToDetailFragment(){
-
-    }
-
-
 
 }
