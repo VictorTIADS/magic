@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="BottomTab">
+        <attr name="firstButtonName" format="reference"/>
+        <attr name="secondButtonName" format="reference"/>
+        <attr name="colorTopLine" format="reference"/>
+        <attr name="colorMiddleLine" format="reference"/>
+    </declare-styleable>
+
+</resources>
