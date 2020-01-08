@@ -2,16 +2,12 @@ package com.bootcamp.magic.View
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.MenuItem
-import androidx.core.view.get
+import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.bootcamp.magic.Animation.*
 import com.bootcamp.magic.R
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.tab_bottom.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,11 +25,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun bottomListener() {
-        content_bottom_navigation.setOnClickListenerFirstButton {
-            navController.navigate(R.id.action_go_to_home)
+        content_bottom_navigation.setOnHomeClick {
+            if (navController.currentDestination?.id != R.id.home_fragment){
+                navController.navigate(R.id.action_go_to_home)
+            }
         }
-        content_bottom_navigation.setOnClickListenerSecondButton {
-            navController.navigate(R.id.action_go_to_favorite)
+        content_bottom_navigation.setOnFavoriteClick {
+            if (navController.currentDestination?.id != R.id.favorite_fragment){
+                navController.navigate(R.id.action_go_to_favorite)
+            }
         }
+    }
+    fun hideComponentsWhenGoToDetail(){
+        content_bottom_navigation.slideOutDown()
+        main_gradient.slideOutDown()
+    }
+    fun showComponentsBack(){
+        content_bottom_navigation.slideInUp()
+        main_gradient.slideInUp()
     }
 }

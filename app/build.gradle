@@ -4,6 +4,9 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -26,6 +29,7 @@ android {
 dependencies {
     //DEFAULT
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.1.0'
@@ -46,6 +50,13 @@ dependencies {
     //LOADS
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
+    //SCROLL
+    implementation 'com.yarolegovich:discrete-scrollview:1.4.9'
+
+    //ANIMATION
+    implementation 'com.daimajia.easing:library:2.0@aar'
+    implementation 'com.daimajia.androidanimations:library:2.3@aar'
+
 
     testImplementation 'junit:junit:4.12'
 
@@ -56,7 +67,10 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
     androidTestImplementation "io.mockk:mockk-android:1.9.3"
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0'
     testImplementation "androidx.arch.core:core-testing:2.1.0"
     testImplementation "io.mockk:mockk:1.9.3"
 
+    debugImplementation 'androidx.fragment:fragment-testing:1.1.0'
+    debugImplementation 'androidx.test:core:1.2.0'
 }
