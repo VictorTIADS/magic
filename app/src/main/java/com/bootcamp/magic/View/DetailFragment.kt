@@ -10,15 +10,17 @@ import androidx.navigation.fragment.findNavController
 import com.bootcamp.magic.Adapter.DetailAdapter
 import com.bootcamp.magic.Models.Card
 import com.bootcamp.magic.R
+import com.bootcamp.magic.ViewModel.DetailFragmentViewModel
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.fragment_detail.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class DetailFragment : Fragment() {
 
-
+    private val viewModel : DetailFragmentViewModel by viewModel()
     lateinit var scrollView: DiscreteScrollView
     lateinit var mAdapter: DetailAdapter
     lateinit var listCard:ArrayList<Card>
@@ -46,28 +48,28 @@ class DetailFragment : Fragment() {
     }
 
     private fun setUpAdapter() {
-        listCard = arrayListOf(
-            Card(
-                1,
-                "A",
-                "",
-                "A",
-                arrayListOf()
-            ),Card(
-                1,
-                "A",
-                "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=130483&type=card",
-                "A",
-                arrayListOf()
-            ),
-            Card(
-                1,
-                "A",
-                "asd",
-                "A",
-                arrayListOf()
-            )
-        )
+//        listCard = arrayListOf(
+//            Card(
+//                1,
+//                "A",
+//                "",
+//                "A",
+//                arrayListOf()
+//            ),Card(
+//                1,
+//                "A",
+//                "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=130483&type=card",
+//                "A",
+//                arrayListOf()
+//            ),
+//            Card(
+//                1,
+//                "A",
+//                "asd",
+//                "A",
+//                arrayListOf()
+//            )
+//        )
 
         mAdapter = DetailAdapter(requireContext(), listCard)
     }
