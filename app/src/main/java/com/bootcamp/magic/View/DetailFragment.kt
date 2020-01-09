@@ -57,11 +57,17 @@ class DetailFragment : Fragment() {
 
     private fun setUpListeners() {
         detail_button_close.setOnClickListener {
-            (requireActivity() as MainActivity).showComponentsBack()
+            startAnim()
             findNavController().navigateUp()
         }
 
 
+    }
+
+    private fun startAnim(){
+        if ((requireActivity() as MainActivity)!=null){
+            (requireActivity() as MainActivity).showComponentsBack()
+        }
     }
 
     private fun setUpScroll(){

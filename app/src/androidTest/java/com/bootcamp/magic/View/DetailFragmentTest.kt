@@ -2,6 +2,7 @@ package com.bootcamp.magic.View
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.bootcamp.magic.Robots.withDetailFragment
+import io.mockk.every
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -99,6 +100,17 @@ class DetailFragmentTest{
         }
     }
 
-    //TODO WHEN CLICK CLOSE BUTTON SHOULD NAVIGATE UP TO HOME
+    @Test
+    fun whenClickOnCloseButton_shouldNavigateUp(){
+        withDetailFragment {
+            mockArgs()
+            mockCardsEmptyList()
+            mockIndex(0)
+        } initHomeFragment {
+            clickOnCloseButton()
+        } checkIf {
+            checkNavigateUp()
+        }
+    }
 
 }

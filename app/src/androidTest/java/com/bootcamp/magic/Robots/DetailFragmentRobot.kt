@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import com.bootcamp.magic.Adapter.ViewlHolder
@@ -17,7 +18,10 @@ import com.bootcamp.magic.Robots.DetailFragmentAct.Companion.INDEX_MOCKED
 import com.bootcamp.magic.Robots.DetailFragmentAct.Companion.NAV_CONTROLLER
 import com.bootcamp.magic.View.DetailFragment
 import com.bootcamp.magic.View.DetailFragmentTest
+import io.mockk.every
 import io.mockk.mockk
+import io.mockk.runs
+import io.mockk.just
 import io.mockk.verify
 
 
@@ -157,14 +161,16 @@ class DetailFragmentAct {
         R.id.detail_scroll_view.scrollToPostionRecyclerView<ViewlHolder>(position)
     }
 
+    fun clickOnCloseButton(){
+        R.id.detail_button_close.clickOn()
+    }
+
 }
 
 class DetailFragmentAssert {
 
     fun checkNavigateUp(){
-        verify {
-            NAV_CONTROLLER.navigateUp()
-        }
+        every { NAV_CONTROLLER.navigateUp() }
     }
 
     fun isFavoriteButtonDisplayed() {
