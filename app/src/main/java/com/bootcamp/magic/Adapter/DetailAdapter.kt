@@ -10,7 +10,7 @@ import com.bootcamp.magic.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.detail_item_list.view.*
 
-class DetailAdapter(val context: Context, val cardsList: ArrayList<Card>) :
+class DetailAdapter(var context: Context, var cardsList: ArrayList<Card>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 

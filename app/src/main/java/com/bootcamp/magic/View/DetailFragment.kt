@@ -21,7 +21,7 @@ class DetailFragment : Fragment() {
 
     lateinit var scrollView: DiscreteScrollView
     lateinit var mAdapter: DetailAdapter
-
+    lateinit var listCard:ArrayList<Card>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,7 +46,7 @@ class DetailFragment : Fragment() {
     }
 
     private fun setUpAdapter() {
-        val list = arrayListOf(
+        listCard = arrayListOf(
             Card(
                 1,
                 "A",
@@ -91,7 +91,7 @@ class DetailFragment : Fragment() {
                 arrayListOf()
             )
         )
-        mAdapter = DetailAdapter(requireContext(), list)
+        mAdapter = DetailAdapter(requireContext(), listCard)
     }
 
     private fun setUpScrollView() {
