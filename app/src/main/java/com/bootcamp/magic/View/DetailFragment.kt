@@ -41,7 +41,7 @@ class DetailFragment : Fragment() {
     private fun setUpListeners(){
         detail_button_close.setOnClickListener {
             (requireActivity() as MainActivity).showComponentsBack()
-            findNavController().popBackStack()
+            findNavController().navigateUp()
         }
     }
 
@@ -50,47 +50,25 @@ class DetailFragment : Fragment() {
             Card(
                 1,
                 "A",
-                "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=130483&type=card",
+                "",
                 "A",
                 arrayListOf()
-            ), Card(
+            ),Card(
                 1,
                 "A",
                 "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=130483&type=card",
                 "A",
                 arrayListOf()
-            ), Card(
+            ),
+            Card(
                 1,
                 "A",
-                "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=130483&type=card",
-                "A",
-                arrayListOf()
-            ), Card(
-                1,
-                "A",
-                "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=130483&type=card",
-                "A",
-                arrayListOf()
-            ), Card(
-                1,
-                "A",
-                "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=130483&type=card",
-                "A",
-                arrayListOf()
-            ), Card(
-                1,
-                "A",
-                "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=130483&type=card",
-                "A",
-                arrayListOf()
-            ), Card(
-                1,
-                "A",
-                "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=130483&type=card",
+                "asd",
                 "A",
                 arrayListOf()
             )
         )
+
         mAdapter = DetailAdapter(requireContext(), listCard)
     }
 

@@ -48,4 +48,8 @@ class DetailFragmentAssert {
         R.id.detail_scroll_view.scrollToPostionRecyclerView<ViewlHolder>(5)
     }
 
+    fun isHozirontalScrollViewDisplayed(){
+        R.id.detail_scroll_view.isDisplayed()
+    }
+
 }

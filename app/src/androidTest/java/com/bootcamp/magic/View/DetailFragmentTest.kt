@@ -1,12 +1,7 @@
 package com.bootcamp.magic.View
 
-import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.bootcamp.magic.Adapter.DetailAdapter
-import org.junit.Assert.*
 import com.bootcamp.magic.Robots.withDetailFragment
-import io.mockk.every
-import io.mockk.mockk
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -17,7 +12,19 @@ class DetailFragmentTest{
     val mock  = HomeFragment
 
     @Test
-    fun whenOpenDetailFragment_shouldScrollList(){
+    fun whenOpenDetailFragment_shouldRecyclerView(){
+
+        withDetailFragment {
+
+        } initHomeFragment {
+
+        } checkIf {
+            isHozirontalScrollViewDisplayed()
+        }
+    }
+
+    @Test
+    fun whenOpenDetailFragment_shouldHasAListOfCards(){
 
         withDetailFragment {
 
@@ -50,14 +57,4 @@ class DetailFragmentTest{
         }
     }
 
-    @Test
-    fun test(){
-        withDetailFragment {
-
-        } initHomeFragment {
-
-        } checkIf {
-           Thread.sleep(5000)
-        }
-    }
 }

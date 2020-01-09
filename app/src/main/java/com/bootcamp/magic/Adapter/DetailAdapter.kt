@@ -15,10 +15,14 @@ class DetailAdapter(var context: Context, var cardsList: ArrayList<Card>) :
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val card = cardsList[0]
+        val card = cardsList[position]
         val image = holder.itemView.image_item
-        Picasso.get().load(card.imageUrl).resize(223, 310).centerCrop()
-            .placeholder(R.drawable.magic_place_holder).into(image)
+        image.setImageResource(R.drawable.magic_place_holder)
+        if (card.imageUrl.isNotEmpty() || card.imageUrl.isNotBlank()){
+            Picasso.get().load(card.imageUrl).resize(223, 310).centerCrop()
+                .placeholder(R.drawable.magic_place_holder).into(image)
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
