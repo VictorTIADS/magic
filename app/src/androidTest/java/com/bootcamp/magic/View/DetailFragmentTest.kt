@@ -9,13 +9,13 @@ import org.junit.runner.RunWith
 
 class DetailFragmentTest{
 
-    val mock  = HomeFragment
 
     @Test
     fun whenOpenDetailFragment_shouldRecyclerView(){
-
         withDetailFragment {
-
+            mockArgs()
+            mockCardsEmptyList()
+            mockIndex(0)
         } initHomeFragment {
 
         } checkIf {
@@ -27,18 +27,34 @@ class DetailFragmentTest{
     fun whenOpenDetailFragment_shouldHasAListOfCards(){
 
         withDetailFragment {
+            mockArgs()
+            mockCardsGoodList()
+            mockIndex(5)
+        } initHomeFragment {
+            scrollToPosition(5)
+        } checkIf {
+          isAtRightPosition()
+        }
+    }
 
+    @Test
+    fun whenOpenDetailFragment_shouldShowAtTheRightIndex(){
+        withDetailFragment {
+            mockArgs()
+            mockCardsGoodList()
+            mockIndex(5)
         } initHomeFragment {
 
         } checkIf {
-            scrollToPosition()
+            isAtRightPosition()
         }
     }
 
     @Test
     fun whenOpenDetailFragment_shoulShowFavoriteButton(){
         withDetailFragment {
-
+            mockArgs()
+            mockCardsEmptyList()
         } initHomeFragment {
 
         } checkIf {
@@ -49,12 +65,42 @@ class DetailFragmentTest{
     @Test
     fun whenOpenDetailFragment_shoulShowCloseButton(){
         withDetailFragment {
-
+            mockArgs()
+            mockCardsEmptyList()
         } initHomeFragment {
 
         } checkIf {
             isCloseButtonDisplayed()
         }
     }
+
+
+    @Test
+    fun whenDoNotLoadTheImage_shouldShowAPlaceHolder(){
+        withDetailFragment {
+            mockArgs()
+            mockCardsBadList()
+            mockIndex(0)
+        } initHomeFragment {
+
+        } checkIf {
+            isPlaceHolderShowing()
+        }
+    }
+
+    @Test
+    fun whenShowList_shouldShowItem(){
+        withDetailFragment {
+            mockArgs()
+            mockCardsBadList()
+            mockIndex(0)
+        } initHomeFragment {
+
+        } checkIf {
+            isRecyclerViewWithItem()
+        }
+    }
+
+    //TODO WHEN CLICK CLOSE BUTTON SHOULD NAVIGATE UP TO HOME
 
 }

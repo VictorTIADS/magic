@@ -2,13 +2,18 @@ package com.bootcamp.magic.View
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.bootcamp.magic.Adapter.DetailAdapter
+import com.bootcamp.magic.Adapter.ViewlHolder
 import com.bootcamp.magic.Models.Card
+import com.bootcamp.magic.Models.Cards
 import com.bootcamp.magic.R
 import com.bootcamp.magic.ViewModel.DetailFragmentViewModel
 import com.yarolegovich.discretescrollview.DiscreteScrollView
@@ -20,10 +25,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailFragment : Fragment() {
 
-    private val viewModel : DetailFragmentViewModel by viewModel()
+    private val viewModel: DetailFragmentViewModel by viewModel()
     lateinit var scrollView: DiscreteScrollView
     lateinit var mAdapter: DetailAdapter
-    lateinit var listCard:ArrayList<Card>
+    lateinit var listCard: ArrayList<Card>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,49 +40,43 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpCardsList()
         setUpAdapter()
         setUpScrollView()
         setUpListeners()
+        setUpScroll()
     }
 
-    private fun setUpListeners(){
+    private fun setUpCardsList() {
+        arguments?.let {
+            viewModel.initCardList(DetailFragmentArgs.fromBundle(it).cardList)
+            viewModel.initCardListIndex(DetailFragmentArgs.fromBundle(it).listIndex)
+        }
+
+    }
+
+    private fun setUpListeners() {
         detail_button_close.setOnClickListener {
             (requireActivity() as MainActivity).showComponentsBack()
             findNavController().navigateUp()
         }
+
+
+    }
+
+    private fun setUpScroll(){
+        scrollView.scrollToPosition(viewModel.getIndexList())
     }
 
     private fun setUpAdapter() {
-//        listCard = arrayListOf(
-//            Card(
-//                1,
-//                "A",
-//                "",
-//                "A",
-//                arrayListOf()
-//            ),Card(
-//                1,
-//                "A",
-//                "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=130483&type=card",
-//                "A",
-//                arrayListOf()
-//            ),
-//            Card(
-//                1,
-//                "A",
-//                "asd",
-//                "A",
-//                arrayListOf()
-//            )
-//        )
-
-        mAdapter = DetailAdapter(requireContext(), listCard)
+        mAdapter = DetailAdapter(requireContext(), viewModel.getCards())
     }
 
     private fun setUpScrollView() {
         scrollView = detail_scroll_view
-        scrollView.setOffscreenItems(10)
-        scrollView.setSlideOnFling(true)
+//        scrollView.setSlideOnFling(true)
+        scrollView.scrollToPosition(viewModel.getIndexList())
+        Log.i("aspk","List Index From Home : ${viewModel.getIndexList()}")
         scrollView.setItemTransformer(
             ScaleTransformer.Builder()
                 .setMaxScale(1.05f)
