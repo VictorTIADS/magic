@@ -9,7 +9,6 @@ import org.junit.runner.RunWith
 
 class DetailFragmentTest{
 
-
     @Test
     fun whenOpenDetailFragment_shouldRecyclerView(){
         withDetailFragment {
@@ -51,7 +50,7 @@ class DetailFragmentTest{
     }
 
     @Test
-    fun whenOpenDetailFragment_shoulShowFavoriteButton(){
+    fun whenOpenDetailFragment_shouldShowFavoriteButton(){
         withDetailFragment {
             mockArgs()
             mockCardsEmptyList()
@@ -63,7 +62,7 @@ class DetailFragmentTest{
     }
 
     @Test
-    fun whenOpenDetailFragment_shoulShowCloseButton(){
+    fun whenOpenDetailFragment_shouldShowCloseButton(){
         withDetailFragment {
             mockArgs()
             mockCardsEmptyList()
@@ -73,7 +72,6 @@ class DetailFragmentTest{
             isCloseButtonDisplayed()
         }
     }
-
 
     @Test
     fun whenDoNotLoadTheImage_shouldShowAPlaceHolder(){

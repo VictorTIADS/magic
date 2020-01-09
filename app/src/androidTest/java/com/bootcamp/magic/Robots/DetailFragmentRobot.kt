@@ -1,7 +1,12 @@
 package com.bootcamp.magic.Robots
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import com.bootcamp.magic.Adapter.ViewlHolder
 import com.bootcamp.magic.Extensions.*
 import com.bootcamp.magic.Models.Card
@@ -9,8 +14,11 @@ import com.bootcamp.magic.Models.Cards
 import com.bootcamp.magic.R
 import com.bootcamp.magic.Robots.DetailFragmentAct.Companion.CURRENT_ITEM_INDEX
 import com.bootcamp.magic.Robots.DetailFragmentAct.Companion.INDEX_MOCKED
+import com.bootcamp.magic.Robots.DetailFragmentAct.Companion.NAV_CONTROLLER
 import com.bootcamp.magic.View.DetailFragment
 import com.bootcamp.magic.View.DetailFragmentTest
+import io.mockk.mockk
+import io.mockk.verify
 
 
 fun DetailFragmentTest.withDetailFragment(mock: DetailFragmentAct.() -> Unit): DetailFragmentAct {
@@ -25,6 +33,7 @@ class DetailFragmentAct {
     companion object{
         var CURRENT_ITEM_INDEX = 0
         var INDEX_MOCKED = 0
+        val NAV_CONTROLLER = mockk<NavController>(relaxed = true)
     }
 
     lateinit var argsMock : Bundle
@@ -34,6 +43,7 @@ class DetailFragmentAct {
         launchFragmentInContainer<DetailFragment>(themeResId = R.style.Theme_MaterialComponents_NoActionBar,fragmentArgs = argsMock)
             .onFragment {
                 CURRENT_ITEM_INDEX  = it.scrollView.currentItem
+                Navigation.setViewNavController(it.requireView(), NAV_CONTROLLER)
             }
         return this.apply(act)
     }
@@ -151,6 +161,12 @@ class DetailFragmentAct {
 
 class DetailFragmentAssert {
 
+    fun checkNavigateUp(){
+        verify {
+            NAV_CONTROLLER.navigateUp()
+        }
+    }
+
     fun isFavoriteButtonDisplayed() {
         R.id.detail_button_favorite.isDisplayed()
     }
@@ -167,11 +183,11 @@ class DetailFragmentAssert {
         R.id.detail_scroll_view.isRecyclerWithItem<ViewlHolder>(R.id.image_item)
     }
     fun isPlaceHolderShowing(){
-        //TODO PLACEHOLDER TESTING
+        R.id.detail_scroll_view.atPosition(INDEX_MOCKED).hasViewWithDrawable(R.id.image_item,R.drawable.magic_place_holder)
     }
 
     fun isAtRightPosition(){
-        CURRENT_ITEM_INDEX.isAtIndex(INDEX_MOCKED)
+        R.id.detail_scroll_view.atPosition(INDEX_MOCKED).check(matches(isDisplayed()))
     }
 
 

@@ -11,6 +11,8 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
+import com.bootcamp.magic.Mathers.RecyclerViewMatcher.Companion.withRecyclerView
+import com.bootcamp.magic.Mathers.withDrawable
 import com.bootcamp.magic.Models.Card
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.hasItem
@@ -36,9 +38,20 @@ fun Int.isDisplayed(){
         .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 }
 
-fun Int.isAtIndex(indexMocked:Int){
-    this.compareTo(indexMocked)
-}
+fun ViewInteraction.hasViewWithDrawable(viewId: Int, drawableId: Int) =
+    this.check(
+        matches(
+            hasDescendant(
+                allOf(
+                    withId(viewId),
+                    isDisplayed(),
+                    withDrawable(drawableId)
+                )
+            )
+        )
+    )
+
+fun Int.atPosition(position: Int) = onView(withRecyclerView(this).atPosition(position))
 
 fun <T : RecyclerView.ViewHolder> Int.isRecyclerWithItem(id:Int): ViewInteraction =
     onView(withId(this)).check(matches(hasDescendant(withId(id))))
