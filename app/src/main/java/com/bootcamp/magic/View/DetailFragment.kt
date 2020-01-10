@@ -2,18 +2,12 @@ package com.bootcamp.magic.View
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.bootcamp.magic.Adapter.DetailAdapter
-import com.bootcamp.magic.Adapter.ViewlHolder
-import com.bootcamp.magic.Models.Card
-import com.bootcamp.magic.Models.Cards
 import com.bootcamp.magic.R
 import com.bootcamp.magic.ViewModel.DetailFragmentViewModel
 import com.yarolegovich.discretescrollview.DiscreteScrollView
