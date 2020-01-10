@@ -27,14 +27,12 @@ class DetailFragment : Fragment() {
 
     private val viewModel: DetailFragmentViewModel by viewModel()
     lateinit var scrollView: DiscreteScrollView
-    lateinit var mAdapter: DetailAdapter
-    lateinit var listCard: ArrayList<Card>
+    private lateinit var mAdapter: DetailAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_detail, container, false)
     }
 
@@ -64,13 +62,13 @@ class DetailFragment : Fragment() {
 
     }
 
-    private fun startAnim(){
-        if ((requireActivity() as MainActivity)!=null){
+    private fun startAnim() {
+        if ((requireActivity() as MainActivity) != null) {
             (requireActivity() as MainActivity).showComponentsBack()
         }
     }
 
-    private fun setUpScroll(){
+    private fun setUpScroll() {
         scrollView.scrollToPosition(viewModel.getIndexList())
     }
 
@@ -80,9 +78,8 @@ class DetailFragment : Fragment() {
 
     private fun setUpScrollView() {
         scrollView = detail_scroll_view
-//        scrollView.setSlideOnFling(true)
+        scrollView.setSlideOnFling(true)
         scrollView.scrollToPosition(viewModel.getIndexList())
-        Log.i("aspk","List Index From Home : ${viewModel.getIndexList()}")
         scrollView.setItemTransformer(
             ScaleTransformer.Builder()
                 .setMaxScale(1.05f)

@@ -2,16 +2,15 @@ package com.bootcamp.magic.View
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.bootcamp.magic.Robots.withDetailFragment
-import io.mockk.every
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 
-class DetailFragmentTest{
+class DetailFragmentTest {
 
     @Test
-    fun whenOpenDetailFragment_shouldRecyclerView(){
+    fun whenOpenDetailFragment_shouldRecyclerView() {
         withDetailFragment {
             mockArgs()
             mockCardsEmptyList()
@@ -24,7 +23,7 @@ class DetailFragmentTest{
     }
 
     @Test
-    fun whenOpenDetailFragment_shouldHasAListOfCards(){
+    fun whenOpenDetailFragment_shouldHasAListOfCards() {
 
         withDetailFragment {
             mockArgs()
@@ -33,12 +32,12 @@ class DetailFragmentTest{
         } initHomeFragment {
             scrollToPosition(5)
         } checkIf {
-          isAtRightPosition()
+            isAtRightPosition()
         }
     }
 
     @Test
-    fun whenOpenDetailFragment_shouldShowAtTheRightIndex(){
+    fun whenOpenDetailFragment_shouldShowAtTheRightIndex() {
         withDetailFragment {
             mockArgs()
             mockCardsGoodList()
@@ -51,7 +50,7 @@ class DetailFragmentTest{
     }
 
     @Test
-    fun whenOpenDetailFragment_shouldShowFavoriteButton(){
+    fun whenOpenDetailFragment_shouldShowFavoriteButton() {
         withDetailFragment {
             mockArgs()
             mockCardsEmptyList()
@@ -63,7 +62,7 @@ class DetailFragmentTest{
     }
 
     @Test
-    fun whenOpenDetailFragment_shouldShowCloseButton(){
+    fun whenOpenDetailFragment_shouldShowCloseButton() {
         withDetailFragment {
             mockArgs()
             mockCardsEmptyList()
@@ -75,7 +74,7 @@ class DetailFragmentTest{
     }
 
     @Test
-    fun whenDoNotLoadTheImage_shouldShowAPlaceHolder(){
+    fun whenDoNotLoadTheImage_shouldShowAPlaceHolder() {
         withDetailFragment {
             mockArgs()
             mockCardsBadList()
@@ -88,7 +87,7 @@ class DetailFragmentTest{
     }
 
     @Test
-    fun whenShowList_shouldShowItem(){
+    fun whenShowList_shouldShowItem() {
         withDetailFragment {
             mockArgs()
             mockCardsBadList()
@@ -97,19 +96,6 @@ class DetailFragmentTest{
 
         } checkIf {
             isRecyclerViewWithItem()
-        }
-    }
-
-    @Test
-    fun whenClickOnCloseButton_shouldNavigateUp(){
-        withDetailFragment {
-            mockArgs()
-            mockCardsEmptyList()
-            mockIndex(0)
-        } initHomeFragment {
-            clickOnCloseButton()
-        } checkIf {
-            checkNavigateUp()
         }
     }
 

@@ -8,17 +8,17 @@ import com.bootcamp.magic.View.*
 
 private lateinit var mainActivity: MainActivity
 
-fun MainActivityTest.withMainActivity(mock: MainAct.() -> Unit): MainAct{
+fun MainActivityTest.withMainActivity(mock: MainAct.() -> Unit): MainAct {
     return MainAct().apply {
         mock()
     }
 }
 
-class MainAct{
+class MainAct {
 
     private lateinit var mainAct: ActivityScenario<MainActivity>
 
-    infix fun initMainActivity(act: MainAct.() -> Unit):MainAct{
+    infix fun initMainActivity(act: MainAct.() -> Unit): MainAct {
         mainAct = ActivityScenario.launch(MainActivity::class.java)
         mainAct.onActivity {
             mainActivity = it
@@ -27,45 +27,45 @@ class MainAct{
         return this.apply(act)
     }
 
-    infix fun checkIf(assert: MainAssert.() -> Unit){
+    infix fun checkIf(assert: MainAssert.() -> Unit) {
         MainAssert().apply(assert)
     }
 
-    fun clickHomeBottomTab(){
+    fun clickHomeBottomTab() {
         R.id.home_button.clickOn()
     }
 
-    fun clickFavoriteBottomTab(){
+    fun clickFavoriteBottomTab() {
         R.id.favorite_button.clickOn()
     }
 
-    fun clickOnItemList(){
+    fun clickOnItemList() {
         R.id.detail.clickOn()
     }
 
-    fun clickOnDetailCloseButton(){
+    fun clickOnDetailCloseButton() {
         R.id.detail_button_close.clickOn()
     }
 }
 
-class MainAssert{
+class MainAssert {
 
-    fun bottomTabIsDisplayed(){
+    fun bottomTabIsDisplayed() {
         R.id.bottom_tab_button.isDisplayed()
     }
 
-    fun checkGoToDetail(){
+    fun checkGoToDetail() {
         val fragmentManager = mainActivity.supportFragmentManager.fragments[0].childFragmentManager
         assert(fragmentManager.fragments[0] is DetailFragment)
     }
 
 
-    fun checkGoToFavorites(){
+    fun checkGoToFavorites() {
         val fragmentManager = mainActivity.supportFragmentManager.fragments[0].childFragmentManager
         assert(fragmentManager.fragments[0] is FavoriteFragment)
     }
 
-    fun checkGoToHome(){
+    fun checkGoToHome() {
         val fragmentManager = mainActivity.supportFragmentManager.fragments[0].childFragmentManager
         assert(fragmentManager.fragments[0] is HomeFragment)
     }
