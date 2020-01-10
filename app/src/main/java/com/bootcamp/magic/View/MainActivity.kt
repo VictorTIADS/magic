@@ -23,16 +23,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setUpNavController()
         bottomListener()
+        initViewPager()
         setupViewPager(mViewPager)
     }
     private fun setupViewPager(viewPager: ViewPager) {
-        mViewPager = main_view_pager
         val adapter = PageAdapter(supportFragmentManager)
         adapter.addFragment(homeFragment, "Home")
         adapter.addFragment(favoriteFragment, "Favorite")
         viewPager.adapter = adapter
     }
-
+    private fun initViewPager(){
+        mViewPager = main_view_pager
+    }
     private fun setUpNavController() {
         navController = Navigation.findNavController(this, R.id.nav_host)
     }
