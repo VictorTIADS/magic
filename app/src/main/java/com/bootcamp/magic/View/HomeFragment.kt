@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment : Fragment(),RecycleViewInterface {
 
     lateinit var viewModel: HomeFragmentViewModel
-    var mAdapter: CardsAdapter = CardsAdapter(Cards(arrayListOf()))
+    var mAdapter: CardsAdapter = CardsAdapter(Cards(arrayListOf()),this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,7 +54,6 @@ class HomeFragment : Fragment(),RecycleViewInterface {
             when (it.status) {
                 BaseModel.Companion.STATUS.SUCCESS -> {
 
-
                     it.data?.let { viewModel.getCards(viewModel.getSetCodeAtPosition(0)) }
 
                 }
@@ -75,7 +74,7 @@ class HomeFragment : Fragment(),RecycleViewInterface {
         fun newInstance() = HomeFragment()
     }
 
-    override fun GoToDetails(card: Cards) {
+    override fun GoToDetails(card: Cards,index:Int) {
         viewModel.dataCard.value?.data?.cards
     }
 }

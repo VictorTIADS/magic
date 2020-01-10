@@ -23,7 +23,7 @@ interface RequestInterface {
         @Path("endpoint")endPoint:String = "cards",
         @Query("set")set:String?,
         @Query("multiverseid")multiverseid:String = "",
-        @Query("page")page:Int
+        @Query("page")page:Int? = 1
     ):Call<Cards>
 
 }

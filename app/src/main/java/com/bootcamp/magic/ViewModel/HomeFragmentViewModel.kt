@@ -1,5 +1,6 @@
 package com.bootcamp.magic.ViewModel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bootcamp.magic.Models.BaseModel
@@ -9,7 +10,7 @@ import com.bootcamp.magic.repository.ServiceRequestRepository
 
 class HomeFragmentViewModel(): ViewModel() {
 
-    var page = 1
+    var page : Int = 1
     val dataCard = MutableLiveData <BaseModel<Cards>>()
     val dataSet = MutableLiveData <BaseModel<Sets>>()
 
@@ -44,15 +45,31 @@ class HomeFragmentViewModel(): ViewModel() {
 
     }
 
+    fun getAllCards(){
+
+    }
+
     fun getCards(set:String?){
 
         dataCard.value = BaseModel(null, BaseModel.Companion.STATUS.LOADING,null)
-        service.getCardsFromApi(set,page,{
-            dataCard.value = BaseModel(it, BaseModel.Companion.STATUS.SUCCESS,null)
+        service.getCardsFromApi(set,page,{ cards, list_count ->
+
+            dataCard.value = BaseModel(cards, BaseModel.Companion.STATUS.SUCCESS,null)
+
         },{
             dataCard.value = BaseModel(null, BaseModel.Companion.STATUS.ERROR,it)
         })
+        getAllCards()
     }
+
+    /*fun orderCards(){
+        val sortedList = dataSet.value?.data?.sets?.sortedWith( compareByDescending {it.releaseDate})
+        if (sortedList != null) {
+            dataSet.value?.data?.sets = sortedList
+        }
+
+
+    }*/
 
 
 }

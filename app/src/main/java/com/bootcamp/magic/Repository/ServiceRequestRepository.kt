@@ -10,6 +10,9 @@ import retrofit2.Response
 
 class ServiceRequestRepository() {
 
+    var total_count_Sets:Int? = null
+
+
     fun getSetsFromApi(Succes: (data: Sets) -> Unit,error: (message: String) -> Unit) {
         val request = RetrofitConfig().interfaceData()
         request.getSets().enqueue(object : Callback<Sets>{
@@ -24,15 +27,16 @@ class ServiceRequestRepository() {
 
                     if (response.body()!=null){
                         Succes(response.body()!!)
+                        total_count_Sets = response.headers().get("total-count")?.toInt()
                     }
                 }
             }
         })
     }
 
-    fun getCardsFromApi(set:String?,page:Int,Succes: (data: Cards) -> Unit,Error: (message: String) -> Unit) {
+    fun getCardsFromApi(set:String?,page:Int,Succes: (data: Cards,total_count:Int?) -> Unit,Error: (message: String) -> Unit) {
         val request = RetrofitConfig().interfaceData()
-        request.getCards(set = set,page = page).enqueue(object : Callback<Cards>{
+        request.getCards(set = set, page = page).enqueue(object : Callback<Cards>{
             override fun onFailure(call: Call<Cards>, t: Throwable) {
                 Log.d("resultado", t.message.toString())
                 Error(t.message)
@@ -43,14 +47,12 @@ class ServiceRequestRepository() {
                 if (response.isSuccessful) {
 
                     if (response.body()!=null){
-                        Succes(response.body()!!)
+                        Succes(response.body()!!,response.headers().get("total-count")?.toInt())
+
+                        //Log.d("total",total_count_Cards.toString())
                     }
                 }
             }
         })
     }
-
-
-
-
 }
