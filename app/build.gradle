@@ -4,6 +4,9 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -38,7 +41,7 @@ dependencies {
     //RETROFIT
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-    
+
     //IMAGE MANAGER
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation "de.hdodenhof:circleimageview:3.0.0"
@@ -46,9 +49,24 @@ dependencies {
     //LOADS
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
+    //SCROLL
+    implementation 'com.yarolegovich:discrete-scrollview:1.4.9'
 
+    //ANIMATION
+    implementation 'com.daimajia.easing:library:2.0@aar'
+    implementation 'com.daimajia.androidanimations:library:2.3@aar'
+
+    //KOIN INJECTION
+    implementation 'org.koin:koin-android:2.0.1'
+    implementation 'org.koin:koin-androidx-viewmodel:2.0.1'
+
+    //VIEW MODEL
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+    implementation "androidx.lifecycle:lifecycle-runtime:2.1.0"
+
+
+    //TEST
     testImplementation 'junit:junit:4.12'
-
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
@@ -56,7 +74,11 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
     androidTestImplementation "io.mockk:mockk-android:1.9.3"
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0'
     testImplementation "androidx.arch.core:core-testing:2.1.0"
     testImplementation "io.mockk:mockk:1.9.3"
-
+    implementation 'org.hamcrest:hamcrest-library:1.3'
+    debugImplementation 'androidx.fragment:fragment-testing:1.1.0'
+    debugImplementation 'androidx.test:core:1.2.0'
+    androidTestImplementation "io.mockk:mockk-android:1.9.3"
 }

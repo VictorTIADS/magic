@@ -9,14 +9,14 @@ import android.view.ViewGroup
 
 import com.bootcamp.magic.R
 
-
-class FavoriteFragment : Fragment() {
+class EmptyFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_favorite, container, false)
+        return inflater.inflate(R.layout.fragment_empty, container, false)
     }
+
 
 }
