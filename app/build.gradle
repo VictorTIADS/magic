@@ -46,8 +46,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation "de.hdodenhof:circleimageview:3.0.0"
 
-    //LOADS
-    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
 
     //SCROLL
     implementation 'com.yarolegovich:discrete-scrollview:1.4.9'
@@ -63,6 +62,9 @@ dependencies {
     //VIEW MODEL
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     implementation "androidx.lifecycle:lifecycle-runtime:2.1.0"
+
+    //LOADS
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
 
     //TEST

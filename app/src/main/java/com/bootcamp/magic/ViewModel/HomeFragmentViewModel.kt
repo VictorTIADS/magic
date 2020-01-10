@@ -17,6 +17,8 @@ class HomeFragmentViewModel(): ViewModel() {
 
     var  service = ServiceRequestRepository()
 
+    fun getCardsList() = dataCard.value?.data
+
     fun getSets(){
         dataSet.value = BaseModel(null, BaseModel.Companion.STATUS.LOADING,null)
         service.getSetsFromApi({
@@ -27,6 +29,8 @@ class HomeFragmentViewModel(): ViewModel() {
             dataSet.value = BaseModel(null, BaseModel.Companion.STATUS.ERROR,it)
         })
     }
+    
+
 
     fun getSetCodeAtPosition(position:Int): String? = when (dataSet.value?.status) {
        BaseModel.Companion.STATUS.SUCCESS -> {
