@@ -43,4 +43,27 @@ class MainActivityTest{
         }
     }
 
+    @Test
+    fun whenClickOnItemList_shouldShowDetailFragment(){
+        withMainActivity {
+
+        } initMainActivity {
+            clickOnItemList()
+        } checkIf {
+            checkGoToDetail()
+        }
+    }
+
+    @Test
+    fun whenClickOnCloseButtonInDetailFragment_shouldNavigateToHome(){
+        withMainActivity {
+
+        } initMainActivity {
+            clickOnItemList()
+            clickOnDetailCloseButton()
+        } checkIf {
+            checkGoToHome()
+        }
+    }
+
 }

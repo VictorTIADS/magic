@@ -165,6 +165,7 @@ class DetailFragmentAct {
         R.id.detail_button_close.clickOn()
     }
 
+
 }
 
 class DetailFragmentAssert {
