@@ -2,6 +2,7 @@ package com.bootcamp.magic.View
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,6 +65,7 @@ class DetailFragment : Fragment() {
 
     private fun setUpScroll() {
         scrollView.scrollToPosition(viewModel.getIndexList())
+        Log.i("aspk",viewModel.getIndexList().toString())
     }
 
     private fun setUpAdapter() {

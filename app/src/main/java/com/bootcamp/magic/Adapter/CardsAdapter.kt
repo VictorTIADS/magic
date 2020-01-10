@@ -16,7 +16,7 @@ class CardsAdapter(var cardList: Cards,val interfaceClick:RecycleViewInterface) 
         val card = cardList.cards[position]
         val imageView_Card = holder.itemView.item_card_home
         holder.itemView.setOnClickListener {
-            interfaceClick.GoToDetails(cardList,position)
+            interfaceClick.GoToDetails(cardList,holder.adapterPosition)
         }
         Picasso.get().load(card.imageUrl.convertToHttps())
             .placeholder(R.drawable.card_placeholder)
@@ -32,7 +32,7 @@ class CardsAdapter(var cardList: Cards,val interfaceClick:RecycleViewInterface) 
 
     fun addItems(newCardList: Cards){
         cardList.cards.clear()
-        cardList = newCardList
+        cardList.cards.addAll(newCardList.cards)
         notifyDataSetChanged()
     }
 

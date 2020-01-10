@@ -12,34 +12,29 @@ import com.bootcamp.magic.Interface.RecycleViewInterface
 import com.bootcamp.magic.Models.BaseModel
 import com.bootcamp.magic.Models.Cards
 import com.bootcamp.magic.Models.adapter.CardsAdapter
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.bootcamp.magic.Models.Card
-import com.bootcamp.magic.Models.Cards
 import com.bootcamp.magic.R
 import kotlinx.android.synthetic.main.fragment_home.*
 import com.bootcamp.magic.ViewModel.HomeFragmentViewModel
-import kotlinx.android.synthetic.main.fragment_home.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class HomeFragment : Fragment(),RecycleViewInterface {
+class HomeFragment : Fragment(), RecycleViewInterface {
 
-    lateinit var viewModel: HomeFragmentViewModel
-    var mAdapter: CardsAdapter = CardsAdapter(Cards(arrayListOf()),this)
+    private val viewModel: HomeFragmentViewModel by viewModel()
+    var mAdapter: CardsAdapter = CardsAdapter(Cards(arrayListOf()), this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getSets()
         setObservable()
-        clickListeners()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(this).get(HomeFragmentViewModel::class.java)
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -52,7 +47,7 @@ class HomeFragment : Fragment(),RecycleViewInterface {
 
                 }
                 BaseModel.Companion.STATUS.ERROR -> {
-
+                    navigateToErrorFragment()
                 }
             }
         })
@@ -64,10 +59,15 @@ class HomeFragment : Fragment(),RecycleViewInterface {
 
                 }
                 BaseModel.Companion.STATUS.ERROR -> {
-
+                    navigateToErrorFragment()
                 }
             }
         })
+    }
+
+    private fun navigateToErrorFragment(){
+        findNavController().navigate(HomeFragmentDirections.actionGoToError())
+        callMainAnimationHideBottomTab()
     }
 
     private fun configureCardAdapter(card: Cards) {
@@ -76,78 +76,25 @@ class HomeFragment : Fragment(),RecycleViewInterface {
         mAdapter.addItems(card)
     }
 
-    fun clickListeners() {
-        detail.setOnClickListener {
-            //TODO REMOVE THIS MOCKED LIST
-            val cardsList = Cards(
-                arrayListOf(
-                    Card(
-                        1,
-                        "A",
-                        "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=130483&type=card",
-                        "A",
-                        arrayListOf()
-                    ),
-                    Card(
-                        1,
-                        "A",
-                        "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=130483&type=card",
-                        "A",
-                        arrayListOf()
-                    ),
-                    Card(
-                        1,
-                        "A",
-                        "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=130483&type=card",
-                        "A",
-                        arrayListOf()
-                    ),
-                    Card(
-                        1,
-                        "A",
-                        "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=130483&type=card",
-                        "A",
-                        arrayListOf()
-                    ),
-                    Card(
-                        1,
-                        "A",
-                        "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=130483&type=card",
-                        "A",
-                        arrayListOf()
-                    ),
-                    Card(
-                        1,
-                        "A",
-                        "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=130483&type=card",
-                        "A",
-                        arrayListOf()
-                    ),
-                    Card(
-                        1,
-                        "A",
-                        "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=130483&type=card",
-                        "A",
-                        arrayListOf()
-                    ),
-                    Card(
-                        1,
-                        "A",
-                        "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=130483&type=card",
-                        "A",
-                        arrayListOf()
-                    )
-                )
-            )
-            val action = HomeFragmentDirections.actionGoToDetail(cardsList, 0)
-            findNavController().navigate(action)
+
+    override fun GoToDetails(card: Cards, index: Int) {
+        viewModel.dataCard.value?.data?.cards
+        val action = HomeFragmentDirections.actionGoToDetail(
+            viewModel.getCardsList() ?: Cards(
+                arrayListOf()
+            ), 0
+        )
+        findNavController().navigate(action)
+        callMainAnimationHideBottomTab()
+
+    }
+
+    fun callMainAnimationHideBottomTab(){
+        if ((requireActivity() as MainActivity) != null ){
             (requireActivity() as MainActivity).hideComponentsWhenGoToDetail()
         }
     }
 
-    override fun GoToDetails(card: Cards,index:Int) {
-        viewModel.dataCard.value?.data?.cards
-    }
 
 }
 
