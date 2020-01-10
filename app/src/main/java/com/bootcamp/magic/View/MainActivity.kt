@@ -2,16 +2,10 @@ package com.bootcamp.magic.View
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.MenuItem
-import androidx.core.view.get
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.bootcamp.magic.R
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.tab_bottom.*
 
 class MainActivity : AppCompatActivity() {
 
