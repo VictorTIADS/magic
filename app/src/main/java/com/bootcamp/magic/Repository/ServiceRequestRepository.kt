@@ -10,12 +10,12 @@ import retrofit2.Response
 
 class ServiceRequestRepository() {
 
-    fun getSetsFromApi(Succes: (data: Sets) -> Unit,Error: (message: String) -> Unit) {
+    fun getSetsFromApi(Succes: (data: Sets) -> Unit,error: (message: String) -> Unit) {
         val request = RetrofitConfig().interfaceData()
         request.getSets().enqueue(object : Callback<Sets>{
             override fun onFailure(call: Call<Sets>, t: Throwable) {
                 Log.d("resultado", t.message.toString())
-                Error(t.message)
+                error(t.message.toString())
             }
 
             override fun onResponse(call: Call<Sets>, response: Response<Sets>) {

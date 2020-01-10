@@ -16,6 +16,12 @@
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right" />
 
+        <action android:id="@+id/action_go_to_error"
+            app:destination="@id/error_fragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"/>
+
+
     </fragment>
 
     <fragment
@@ -33,6 +39,12 @@
         android:id="@+id/detail_fragment"
         android:name="com.bootcamp.magic.View.DetailFragment"
         tools:layout="@layout/fragment_detail" />
+
+    <fragment android:id="@+id/error_fragment"
+        android:name="com.bootcamp.magic.View.ErrorFragment"
+        tools:layout="@layout/fragment_error">
+
+    </fragment>
 
     <action
         android:id="@+id/action_go_to_home"
