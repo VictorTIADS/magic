@@ -7,10 +7,10 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 
-class MainActivityTest{
+class MainActivityTest {
 
     @Test
-    fun whenOpenActivity_shouldShowBottomTabs(){
+    fun whenOpenActivity_shouldShowBottomTabs() {
         withMainActivity {
 
         } initMainActivity {
@@ -21,7 +21,7 @@ class MainActivityTest{
     }
 
     @Test
-    fun whenClickOnHome_shouldNavigateToHomeFragment(){
+    fun whenClickOnHome_shouldNavigateToHomeFragment() {
         withMainActivity {
 
         } initMainActivity {
@@ -33,13 +33,36 @@ class MainActivityTest{
     }
 
     @Test
-    fun whenClickOnFavorite_shouldNavigateToFavoriteFragment(){
+    fun whenClickOnFavorite_shouldNavigateToFavoriteFragment() {
         withMainActivity {
 
         } initMainActivity {
             clickFavoriteBottomTab()
         } checkIf {
             checkGoToFavorites()
+        }
+    }
+
+    @Test
+    fun whenClickOnItemList_shouldShowDetailFragment() {
+        withMainActivity {
+
+        } initMainActivity {
+            clickOnItemList()
+        } checkIf {
+            checkGoToDetail()
+        }
+    }
+
+    @Test
+    fun whenClickOnCloseButtonInDetailFragment_shouldNavigateToHome() {
+        withMainActivity {
+
+        } initMainActivity {
+            clickOnItemList()
+            clickOnDetailCloseButton()
+        } checkIf {
+            checkGoToHome()
         }
     }
 

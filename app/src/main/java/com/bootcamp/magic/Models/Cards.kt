@@ -1,6 +1,7 @@
 package com.bootcamp.magic.Models
 
-class Cards(
-    var cards:ArrayList<Card>
-)
-//NEED ARRAY OF CAR
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class Cards(val cards:ArrayList<Card>) : Parcelable

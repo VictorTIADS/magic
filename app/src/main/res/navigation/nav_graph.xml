@@ -13,8 +13,9 @@
         <action
             android:id="@+id/action_go_to_detail"
             app:destination="@id/detail_fragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:enterAnim="@anim/slide_in_down"
+            app:launchSingleTop="true"
+            app:popExitAnim="@anim/slide_out_down" />
 
         <action android:id="@+id/action_go_to_error"
             app:destination="@id/error_fragment"
@@ -31,14 +32,30 @@
         <action
             android:id="@+id/action_go_to_detail"
             app:destination="@id/detail_fragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:enterAnim="@anim/slide_in_down"
+            app:launchSingleTop="true"
+            app:popExitAnim="@anim/slide_out_down" />
     </fragment>
 
     <fragment
         android:id="@+id/detail_fragment"
         android:name="com.bootcamp.magic.View.DetailFragment"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_detail">
+        <argument
+            android:name="cardList"
+            app:argType="com.bootcamp.magic.Models.Cards"/>
+        <argument
+            android:name="listIndex"
+            android:defaultValue="0"
+            app:argType="integer" />
+
+    </fragment>
+
+    <fragment android:id="@+id/empty_fragment"
+        android:name="com.bootcamp.magic.View.EmptyFragment"
+        tools:layout="@layout/fragment_empty"/>
+
+
 
     <fragment android:id="@+id/error_fragment"
         android:name="com.bootcamp.magic.View.ErrorFragment"
