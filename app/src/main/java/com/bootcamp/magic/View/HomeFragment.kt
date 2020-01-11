@@ -1,67 +1,103 @@
 package com.bootcamp.magic.View
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bootcamp.magic.Interface.RecycleViewInterface
 import com.bootcamp.magic.Models.BaseModel
 import com.bootcamp.magic.Models.Cards
 import com.bootcamp.magic.Models.adapter.CardsAdapter
-import androidx.navigation.fragment.findNavController
 import com.bootcamp.magic.R
-import kotlinx.android.synthetic.main.fragment_home.*
 import com.bootcamp.magic.ViewModel.HomeFragmentViewModel
+import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
 
 class HomeFragment : Fragment(), RecycleViewInterface {
 
+    private lateinit var mAdapter:CardsAdapter
     private val viewModel: HomeFragmentViewModel by viewModel()
-    var mAdapter: CardsAdapter = CardsAdapter(Cards(arrayListOf()), this)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.getSets()
-        setObservable()
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setObservable()
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
+
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mAdapter = CardsAdapter(Cards(arrayListOf()),this)
+        recycleCards.adapter = mAdapter
+        recycleCards.layoutManager = GridLayoutManager(requireContext(), 3)
+    }
+
     private fun setObservable() {
-        viewModel.dataCard.observe(this, Observer {
-            when (it.status) {
+        viewModel.dataSet.observe(viewLifecycleOwner, Observer {
+            when (it.status){
+                BaseModel.Companion.STATUS.LOADING -> {
+                    controlVisibility(BaseModel.Companion.STATUS.LOADING)
+                }
                 BaseModel.Companion.STATUS.SUCCESS -> {
-                    it.data?.let { it1 -> configureCardAdapter(it1) }
-
-
+                    if (viewModel.getCardsList()==null){
+                        viewModel.getCards(viewModel.getSetCodeAtPosition(38))
+                    }
+                    Log.i("aspk","SET CODE TO REQUEST CARDS: ${viewModel.getSetCodeAtPosition(38)}")
                 }
                 BaseModel.Companion.STATUS.ERROR -> {
                     navigateToErrorFragment()
                 }
+
             }
         })
-        viewModel.dataSet.observe(this, Observer {
-            when (it.status) {
-                BaseModel.Companion.STATUS.SUCCESS -> {
+        viewModel.dataCard.observe(viewLifecycleOwner, Observer {
+            when (it.status){
+                BaseModel.Companion.STATUS.LOADING -> {
 
-                    it.data?.let { viewModel.getCards(viewModel.getSetCodeAtPosition(0)) }
 
                 }
+                BaseModel.Companion.STATUS.SUCCESS -> {
+                    it.data?.let { it1 -> mAdapter.addItems(it1) }
+                    controlVisibility(BaseModel.Companion.STATUS.SUCCESS)
+
+                }
+
                 BaseModel.Companion.STATUS.ERROR -> {
                     navigateToErrorFragment()
                 }
+
             }
         })
+    }
+
+    private fun controlVisibility(it:BaseModel.Companion.STATUS){
+        when (it){
+            BaseModel.Companion.STATUS.LOADING -> {
+                home_loader_place_holder.visibility = View.VISIBLE
+                recycleCards.visibility = View.GONE
+            }
+            BaseModel.Companion.STATUS.SUCCESS -> {
+                home_loader_place_holder.visibility = View.GONE
+                recycleCards.visibility = View.VISIBLE
+            }
+
+
+        }
     }
 
     private fun navigateToErrorFragment(){
@@ -69,19 +105,16 @@ class HomeFragment : Fragment(), RecycleViewInterface {
         callMainAnimationHideBottomTab()
     }
 
-    private fun configureCardAdapter(card: Cards) {
-        recycleCards.adapter = mAdapter
-        recycleCards.layoutManager = GridLayoutManager(requireContext(), 3)
-        mAdapter.addItems(card)
+    private fun configureCardAdapter(cards: Cards) {
+
     }
 
 
     override fun GoToDetails(card: Cards, index: Int) {
-        viewModel.dataCard.value?.data?.cards
         val action = HomeFragmentDirections.actionGoToDetail(
             viewModel.getCardsList() ?: Cards(
                 arrayListOf()
-            ), 0
+            ), index
         )
         findNavController().navigate(action)
         callMainAnimationHideBottomTab()

@@ -14,8 +14,7 @@ interface RequestInterface {
     @GET("{endpoint}")
     fun getSets(
         @Path("endpoint")endPoint:String = "sets",
-        @Query("name")name:String = "",
-        @Query("block")block:String = ""
+        @Query("name")name:String = ""
     ): Call<Sets>
 
     @GET("{endpoint}")

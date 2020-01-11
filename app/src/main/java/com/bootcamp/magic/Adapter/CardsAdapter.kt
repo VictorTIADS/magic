@@ -31,7 +31,7 @@ class CardsAdapter(var cardList: Cards,val interfaceClick:RecycleViewInterface) 
     override fun getItemCount() = cardList.cards.size
 
     fun addItems(newCardList: Cards){
-        cardList.cards.clear()
+        //cardList.cards.clear()
         cardList.cards.addAll(newCardList.cards)
         notifyDataSetChanged()
     }

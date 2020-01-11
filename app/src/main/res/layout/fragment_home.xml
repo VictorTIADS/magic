@@ -7,11 +7,21 @@
     android:layout_gravity="center_horizontal"
     tools:context=".View.HomeFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycleCards"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:listitem="@layout/item_card" />
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/home_loader_place_holder"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/home_load_place_holder" />
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleCards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        tools:listitem="@layout/item_card" />
 
 </FrameLayout>
