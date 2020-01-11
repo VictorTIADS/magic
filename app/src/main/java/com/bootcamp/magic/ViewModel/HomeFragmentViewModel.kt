@@ -12,13 +12,14 @@ import com.bootcamp.magic.repository.ServiceRequestRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 class HomeFragmentViewModel: ViewModel() {
 
     private var page : Int = 1
     var total_count = 0
     var count = 0
-    val list = Cards(arrayListOf())
+    var list = Cards(arrayListOf())
     val dataCard = MutableLiveData <BaseModel<Cards>>()
     val dataSet = MutableLiveData <BaseModel<Sets>>()
     var  service = ServiceRequestRepository()
@@ -75,7 +76,10 @@ class HomeFragmentViewModel: ViewModel() {
                 service.getCardsFromApi(set,page,{ cards, list_count ->
                     Log.i("aspk","LIST SIZE: ${cards.cards.size}")
                     if(cards.cards.size == 0){
-                        dataCard.value = BaseModel(list, BaseModel.Companion.STATUS.SUCCESS,null)
+                        var sortedList = list.cards.sortedBy { it.types[0] }
+                        var cardsRight = Cards(arrayListOf())
+                        sortedList.map { cardsRight.cards.add(it) }
+                        dataCard.value = BaseModel(cardsRight, BaseModel.Companion.STATUS.SUCCESS,null)
                     }else{
                         page++
                         list.cards.addAll(cards.cards)
