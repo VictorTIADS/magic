@@ -14,6 +14,7 @@
             android:id="@+id/action_go_to_detail"
             app:destination="@id/detail_fragment"
             app:enterAnim="@anim/slide_in_down"
+            app:exitAnim="@anim/slide_out_down"
             app:popExitAnim="@anim/slide_out_down" />
 
         <action
@@ -47,6 +48,12 @@
             android:name="listIndex"
             android:defaultValue="0"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_go_to_home_from_detail"
+            app:destination="@id/home_fragment"
+            app:enterAnim="@anim/slide_in_down"
+            app:popExitAnim="@anim/slide_out_down"
+            app:exitAnim="@anim/slide_out_down" />
 
     </fragment>
 

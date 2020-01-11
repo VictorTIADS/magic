@@ -51,7 +51,7 @@ class DetailFragment : Fragment() {
     private fun setUpListeners() {
         detail_button_close.setOnClickListener {
             startAnim()
-            findNavController().navigateUp()
+            findNavController().navigate(DetailFragmentDirections.actionGoToHomeFromDetail())
         }
 
 
