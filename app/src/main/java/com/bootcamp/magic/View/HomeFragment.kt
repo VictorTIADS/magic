@@ -55,9 +55,9 @@ class HomeFragment : Fragment(), RecycleViewInterface {
                 }
                 BaseModel.Companion.STATUS.SUCCESS -> {
                     if (viewModel.getCardsList()==null){
-                        viewModel.getCards(viewModel.getSetCodeAtPosition(38))
+                        viewModel.getCards(viewModel.getSetCodeAtPosition(27))
                     }
-                    Log.i("aspk","SET CODE TO REQUEST CARDS: ${viewModel.getSetCodeAtPosition(38)}")
+                    Log.i("aspk","SET CODE TO REQUEST CARDS: ${viewModel.getSetCodeAtPosition(27)}")
                 }
                 BaseModel.Companion.STATUS.ERROR -> {
                     navigateToErrorFragment()

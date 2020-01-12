@@ -85,7 +85,7 @@ class HomeFragmentViewModel: ViewModel() {
                         list.cards.addAll(cards.cards)
                         dataCard.value = BaseModel(list, BaseModel.Companion.STATUS.SUCCESS_STILL_HAVE_MORE,null)
                         Log.i("aspk","COMPARATION: list : ${list.cards.size} dataCard: ${dataCard.value?.data?.cards?.size}")
-                        getCards(getSetCodeAtPosition(38))
+                        getCards(getSetCodeAtPosition(27))
                     }
                 },{
                     dataCard.value = BaseModel(null, BaseModel.Companion.STATUS.ERROR,it)
