@@ -20,8 +20,9 @@
         <action
             android:id="@+id/action_go_to_error"
             app:destination="@id/error_fragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:enterAnim="@anim/slide_in_down"
+            app:popExitAnim="@anim/slide_out_down"
+            app:exitAnim="@anim/slide_out_down" />
 
 
     </fragment>
