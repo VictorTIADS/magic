@@ -21,6 +21,7 @@ interface RequestInterface {
     fun getCards(
         @Path("endpoint")endPoint:String = "cards",
         @Query("set")set:String?,
+        @Query("orderBy")orderBy:String = "types",
         @Query("multiverseid")multiverseid:String = "",
         @Query("page")page:Int? = 1
     ):Call<Cards>
