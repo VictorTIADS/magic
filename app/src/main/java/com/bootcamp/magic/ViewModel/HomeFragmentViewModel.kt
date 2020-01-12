@@ -19,6 +19,7 @@ class HomeFragmentViewModel: ViewModel() {
     private var page : Int = 1
     var total_count = 0
     var count = 0
+    val setName = MutableLiveData<String>()
     var list = Cards(arrayListOf())
     val dataCard = MutableLiveData <BaseModel<Cards>>()
     val dataSet = MutableLiveData <BaseModel<Sets>>()
@@ -37,6 +38,7 @@ class HomeFragmentViewModel: ViewModel() {
     fun getCardsList() = dataCard.value?.data
     fun getSetList() = dataSet.value?.data
     fun getPage() = page
+    fun getSetName() = setName.value
 
     fun getSets(){
         dataSet.value = BaseModel(null,BaseModel.Companion.STATUS.LOADING,null)
@@ -47,6 +49,7 @@ class HomeFragmentViewModel: ViewModel() {
                         val listCorrect = setsFromrepository.sets.sortedWith( compareByDescending {it.releaseDate})
                         val setsCorrect = Sets(listCorrect)
                         dataSet.value = BaseModel(setsCorrect,BaseModel.Companion.STATUS.SUCCESS,null)
+                        setName.value = setsCorrect.sets[27].name
                     }
                 },{
                     dataSet.value = BaseModel(null, BaseModel.Companion.STATUS.ERROR,it)
@@ -66,6 +69,14 @@ class HomeFragmentViewModel: ViewModel() {
            null
        }
    }
+    fun getSetNameAtPosition(position:Int): String? = when (dataSet.value?.status) {
+        BaseModel.Companion.STATUS.SUCCESS -> {
+            dataSet.value!!.data?.sets?.get(position)?.name
+        }
+        else -> {
+            null
+        }
+    }
 
 
 
@@ -75,7 +86,7 @@ class HomeFragmentViewModel: ViewModel() {
                 Log.i("aspk","PAGE: $page")
                 service.getCardsFromApi(set,page,{ cards, list_count ->
                     Log.i("aspk","LIST SIZE: ${cards.cards.size}")
-                    if(cards.cards.size == 0){
+                    if(cards.cards.size < 100){
                         dataCard.value = BaseModel(list, BaseModel.Companion.STATUS.SUCCESS,null)
                     }else{
                         page++

@@ -90,10 +90,13 @@ class HomeFragment : Fragment(), RecycleViewInterface {
             BaseModel.Companion.STATUS.LOADING -> {
                 home_loader_place_holder.visibility = View.VISIBLE
                 recycleCards.visibility = View.GONE
+                set_title.visibility = View.GONE
             }
             BaseModel.Companion.STATUS.SUCCESS -> {
                 home_loader_place_holder.visibility = View.GONE
                 recycleCards.visibility = View.VISIBLE
+                set_title.text = viewModel.getSetName()
+                set_title.visibility = View.VISIBLE
             }
 
 
