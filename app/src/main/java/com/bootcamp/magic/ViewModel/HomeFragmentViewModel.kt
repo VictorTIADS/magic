@@ -127,8 +127,7 @@ class HomeFragmentViewModel : ViewModel() {
                         }
 
                         sep.forEach {
-                            objects.add(Type(it.key))
-                            it.value.forEach { item -> objects.add(item) }
+                            objects.add( Category( it.key, it.value))
                         }
 
                         objectList.value =

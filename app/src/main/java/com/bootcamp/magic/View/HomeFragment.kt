@@ -16,10 +16,9 @@ import com.bootcamp.magic.Interface.RecycleViewInterface
 import com.bootcamp.magic.Models.BaseModel
 import com.bootcamp.magic.Models.CardView
 import com.bootcamp.magic.Models.Cards
-import com.bootcamp.magic.Models.Items
 import com.bootcamp.magic.Models.adapter.CardsAdapter
+import com.bootcamp.magic.Models.adapter.CardsAdapter.Companion.CATEGORY_TYPE
 import com.bootcamp.magic.Models.adapter.CardsAdapter.Companion.HEADER_SET
-import com.bootcamp.magic.Models.adapter.CardsAdapter.Companion.HEADER_TYPE
 import com.bootcamp.magic.Models.adapter.CardsAdapter.Companion.ITEM
 import com.bootcamp.magic.R
 import com.bootcamp.magic.ViewModel.HomeFragmentViewModel
@@ -29,10 +28,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment(), RecycleViewInterface {
 
-    private lateinit var mAdapter:CardsAdapter
     private val viewModel: HomeFragmentViewModel by viewModel()
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,18 +36,6 @@ class HomeFragment : Fragment(), RecycleViewInterface {
     ): View? {
         setObservable()
         return inflater.inflate(R.layout.fragment_home, container, false)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
     }
 
     private fun setObservable() {
@@ -66,23 +50,6 @@ class HomeFragment : Fragment(), RecycleViewInterface {
                     }
                     Log.i("aspk","SET CODE TO REQUEST CARDS: ${viewModel.getSetCodeAtPosition(20)}")
                 }
-                BaseModel.Companion.STATUS.ERROR -> {
-                    navigateToErrorFragment()
-                }
-
-            }
-        })
-        viewModel.dataCard.observe(viewLifecycleOwner, Observer {
-            when (it.status){
-                BaseModel.Companion.STATUS.LOADING -> {
-
-
-                }
-                BaseModel.Companion.STATUS.SUCCESS -> {
-
-
-                }
-
                 BaseModel.Companion.STATUS.ERROR -> {
                     navigateToErrorFragment()
                 }
@@ -108,8 +75,8 @@ class HomeFragment : Fragment(), RecycleViewInterface {
             override fun getSpanSize(position: Int): Int {
                 return when (mAdapter.getItemViewType(position)) {
                     HEADER_SET -> 3
-                    HEADER_TYPE -> 3
                     ITEM -> 1
+                    CATEGORY_TYPE -> 3
                     else -> -1
                 }
             }
@@ -135,10 +102,6 @@ class HomeFragment : Fragment(), RecycleViewInterface {
     private fun navigateToErrorFragment(){
         findNavController().navigate(HomeFragmentDirections.actionGoToError())
         callMainAnimationHideBottomTab()
-    }
-
-    private fun configureCardAdapter(cards: Cards) {
-
     }
 
 

@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bootcamp.magic.Interface.RecycleViewInterface
 import com.bootcamp.magic.Models.*
@@ -13,6 +14,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.header_set.view.*
 import kotlinx.android.synthetic.main.header_type.view.*
 import kotlinx.android.synthetic.main.item_card.view.*
+import kotlinx.android.synthetic.main.item_category.view.*
 
 class CardsAdapter(var items: List<CardView>, val interfaceClick: RecycleViewInterface) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -22,8 +24,8 @@ class CardsAdapter(var items: List<CardView>, val interfaceClick: RecycleViewInt
 
     companion object {
         val HEADER_SET = 0
-        val HEADER_TYPE = 1
         val ITEM = 2
+        val CATEGORY_TYPE = 3
     }
 
     override fun getItemCount() = items.size
@@ -33,11 +35,11 @@ class CardsAdapter(var items: List<CardView>, val interfaceClick: RecycleViewInt
             items[position] is Header -> {
                 HEADER_SET
             }
-            items[position] is Type -> {
-                HEADER_TYPE
-            }
             items[position] is Item -> {
                 ITEM
+            }
+            items[position] is Category -> {
+                CATEGORY_TYPE
             }
             else -> {
                 -1
@@ -52,23 +54,21 @@ class CardsAdapter(var items: List<CardView>, val interfaceClick: RecycleViewInt
                 val viewHolderSet = holder as ViewHolderSet
                 configureViewHolderSet(viewHolderSet, position)
             }
-            HEADER_TYPE -> {
-                val viewHolderType = holder as ViewHolderType
-                configureViewHolderType(viewHolderType, position)
-            }
             ITEM -> {
                 val item = items[position] as Item
-                val sap = Card(item.multiverseid,item.name,item.imageUrl,item.set,item.types)
+                val sap = Card(item.multiverseid, item.name, item.imageUrl, item.set, item.types)
                 cards.cards.add(sap)
-
                 val viewHolderItem = holder as ViewHolderItem
                 configureViewHolderItem(viewHolderItem, position)
-
                 viewHolderItem.itemView.setOnClickListener {
-                    interfaceClick.GoToDetails(cards,position)
-
+                    interfaceClick.GoToDetails(cards, position)
                 }
             }
+            CATEGORY_TYPE -> {
+                val viewHolderCategory = holder as ViewHolderCategory
+                configureViewHolderCategory(viewHolderCategory, position)
+            }
+
             else -> {
                 error("Could Not Bind")
             }
@@ -84,13 +84,13 @@ class CardsAdapter(var items: List<CardView>, val interfaceClick: RecycleViewInt
                 val viewSet = inflater.inflate(R.layout.header_set, parent, false)
                 viewHolder = ViewHolderSet(viewSet)
             }
-            HEADER_TYPE -> {
-                val viewType = inflater.inflate(R.layout.header_type, parent, false)
-                viewHolder = ViewHolderType(viewType)
-            }
             ITEM -> {
                 val viewItem = inflater.inflate(R.layout.item_card, parent, false)
                 viewHolder = ViewHolderItem(viewItem)
+            }
+            CATEGORY_TYPE -> {
+                val viewCategory = inflater.inflate(R.layout.item_category, parent, false)
+                viewHolder = ViewHolderCategory(viewCategory)
             }
             else -> {
                 error("Could not inflate de view at onCreate")
@@ -108,24 +108,25 @@ class CardsAdapter(var items: List<CardView>, val interfaceClick: RecycleViewInt
 
     }
 
-    fun configureViewHolderType(viewHolderType: ViewHolderType, position: Int) {
-        val headerType = items[position] as Type
-        if (headerType != null) {
-            viewHolderType.type.text = headerType.type
-        }
-    }
-
     fun configureViewHolderItem(viewHolderItem: ViewHolderItem, position: Int) {
         val item = items[position] as Item
-
         if (item != null) {
             Picasso.get().load(item.imageUrl.convertToHttps())
                 .placeholder(R.drawable.card_placeholder)
                 .error(R.drawable.card_placeholder)
                 .into(viewHolderItem.imageView)
         }
+    }
 
-
+    fun configureViewHolderCategory(viewHolderCategory: ViewHolderCategory, position: Int) {
+        val category = items[position] as Category
+        if (category != null) {
+            viewHolderCategory.categoryTitle.text = category.title
+            viewHolderCategory.categoryList.adapter =
+                CardsAdapter(category.itens, this.interfaceClick)
+            viewHolderCategory.categoryList.layoutManager =
+                GridLayoutManager(viewHolderCategory.itemView.context, 3)
+        }
     }
 
     private fun String?.convertToHttps() = this?.replace("http://", "https://")
@@ -136,10 +137,11 @@ class ViewHolderSet(view: View) : RecyclerView.ViewHolder(view) {
     var title: TextView = view.header_set
 }
 
-class ViewHolderType(view: View) : RecyclerView.ViewHolder(view) {
-    var type: TextView = view.header_type
-}
-
 class ViewHolderItem(view: View) : RecyclerView.ViewHolder(view) {
     var imageView: ImageView = view.item_card_home
+}
+
+class ViewHolderCategory(view: View) : RecyclerView.ViewHolder(view) {
+    var categoryList: RecyclerView = view.categoryList
+    var categoryTitle: TextView = view.categoryTitle
 }

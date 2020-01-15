@@ -25,7 +25,7 @@ class ErrorFragment : Fragment() {
         clickListeners()
     }
 
-    fun clickListeners(){
+    private fun clickListeners(){
         error_button.setOnClickListener {
             findNavController().navigateUp()
         }
