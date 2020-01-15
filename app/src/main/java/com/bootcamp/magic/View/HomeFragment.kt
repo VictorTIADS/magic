@@ -1,67 +1,102 @@
 package com.bootcamp.magic.View
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
+import com.bootcamp.magic.Animation.fadeIn
+import com.bootcamp.magic.Animation.fadeOut
 import com.bootcamp.magic.Interface.RecycleViewInterface
 import com.bootcamp.magic.Models.BaseModel
+import com.bootcamp.magic.Models.CardView
 import com.bootcamp.magic.Models.Cards
 import com.bootcamp.magic.Models.adapter.CardsAdapter
-import androidx.navigation.fragment.findNavController
+import com.bootcamp.magic.Models.adapter.CardsAdapter.Companion.CATEGORY_TYPE
+import com.bootcamp.magic.Models.adapter.CardsAdapter.Companion.HEADER_SET
+import com.bootcamp.magic.Models.adapter.CardsAdapter.Companion.ITEM
 import com.bootcamp.magic.R
-import kotlinx.android.synthetic.main.fragment_home.*
 import com.bootcamp.magic.ViewModel.HomeFragmentViewModel
+import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class HomeFragment : Fragment(), RecycleViewInterface {
 
     private val viewModel: HomeFragmentViewModel by viewModel()
-    var mAdapter: CardsAdapter = CardsAdapter(Cards(arrayListOf()), this)
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.getSets()
-        setObservable()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setObservable()
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     private fun setObservable() {
-        viewModel.dataCard.observe(this, Observer {
-            when (it.status) {
+        viewModel.dataSet.observe(viewLifecycleOwner, Observer {
+            when (it.status){
+                BaseModel.Companion.STATUS.LOADING -> {
+                    controlVisibility(BaseModel.Companion.STATUS.LOADING)
+                }
                 BaseModel.Companion.STATUS.SUCCESS -> {
-                    it.data?.let { it1 -> configureCardAdapter(it1) }
-
-
+                    if (viewModel.dataCard.value == null){
+                        viewModel.getCards(viewModel.getSetCodeAtPosition(20))
+                    }
+                    Log.i("aspk","SET CODE TO REQUEST CARDS: ${viewModel.getSetCodeAtPosition(20)}")
                 }
                 BaseModel.Companion.STATUS.ERROR -> {
                     navigateToErrorFragment()
                 }
+
             }
         })
-        viewModel.dataSet.observe(this, Observer {
-            when (it.status) {
+        viewModel.objectList.observe(viewLifecycleOwner, Observer {
+            when(it.status){
                 BaseModel.Companion.STATUS.SUCCESS -> {
-
-                    it.data?.let { viewModel.getCards(viewModel.getSetCodeAtPosition(0)) }
-
-                }
-                BaseModel.Companion.STATUS.ERROR -> {
-                    navigateToErrorFragment()
+                    it.data?.let { it1 -> bindDataToAdapter(it1) }
+                    controlVisibility(BaseModel.Companion.STATUS.SUCCESS)
                 }
             }
         })
+    }
+
+
+    private fun bindDataToAdapter(list:ArrayList<CardView>){
+        val mAdapter = CardsAdapter(list,this)
+        recycleCards.adapter = mAdapter
+        val layoutManager = GridLayoutManager(requireContext(), 3)
+        layoutManager.spanSizeLookup = object : SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return when (mAdapter.getItemViewType(position)) {
+                    HEADER_SET -> 3
+                    ITEM -> 1
+                    CATEGORY_TYPE -> 3
+                    else -> -1
+                }
+            }
+        }
+        recycleCards.layoutManager = layoutManager
+    }
+
+    private fun controlVisibility(it:BaseModel.Companion.STATUS){
+        when (it){
+            BaseModel.Companion.STATUS.LOADING -> {
+                home_loader_place_holder.fadeIn()
+                recycleCards.fadeOut()
+            }
+            BaseModel.Companion.STATUS.SUCCESS -> {
+                home_loader_place_holder.fadeOut()
+                recycleCards.fadeIn()
+            }
+
+
+        }
     }
 
     private fun navigateToErrorFragment(){
@@ -69,29 +104,17 @@ class HomeFragment : Fragment(), RecycleViewInterface {
         callMainAnimationHideBottomTab()
     }
 
-    private fun configureCardAdapter(card: Cards) {
-        recycleCards.adapter = mAdapter
-        recycleCards.layoutManager = GridLayoutManager(requireContext(), 3)
-        mAdapter.addItems(card)
-    }
-
-
-    override fun GoToDetails(card: Cards, index: Int) {
-        viewModel.dataCard.value?.data?.cards
-        val action = HomeFragmentDirections.actionGoToDetail(
-            viewModel.getCardsList() ?: Cards(
-                arrayListOf()
-            ), 0
-        )
-        findNavController().navigate(action)
-        callMainAnimationHideBottomTab()
-
-    }
 
     fun callMainAnimationHideBottomTab(){
         if ((requireActivity() as MainActivity) != null ){
             (requireActivity() as MainActivity).hideComponentsWhenGoToDetail()
         }
+    }
+
+    override fun GoToDetails(card: Cards, index: Int) {
+        val action = HomeFragmentDirections.actionGoToDetail(card, index)
+        findNavController().navigate(action)
+        callMainAnimationHideBottomTab()
     }
 
 

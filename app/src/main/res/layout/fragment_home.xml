@@ -5,13 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context=".View.HomeFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycleCards"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:listitem="@layout/item_card" />
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/home_loader_place_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:visibility="visible">
+
+        <include layout="@layout/home_load_place_holder" />
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleCards"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        tools:listitem="@layout/item_card" />
 
 </FrameLayout>

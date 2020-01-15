@@ -3,6 +3,8 @@ package com.bootcamp.magic.ViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bootcamp.magic.Models.Cards
+import com.bootcamp.magic.Models.Item
+import com.bootcamp.magic.Models.Items
 
 class DetailFragmentViewModel : ViewModel() {
 
