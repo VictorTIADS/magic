@@ -9,14 +9,23 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
+import com.bootcamp.magic.Animation.fadeIn
+import com.bootcamp.magic.Animation.fadeOut
 import com.bootcamp.magic.Interface.RecycleViewInterface
 import com.bootcamp.magic.Models.BaseModel
+import com.bootcamp.magic.Models.CardView
 import com.bootcamp.magic.Models.Cards
+import com.bootcamp.magic.Models.Items
 import com.bootcamp.magic.Models.adapter.CardsAdapter
+import com.bootcamp.magic.Models.adapter.CardsAdapter.Companion.HEADER_SET
+import com.bootcamp.magic.Models.adapter.CardsAdapter.Companion.HEADER_TYPE
+import com.bootcamp.magic.Models.adapter.CardsAdapter.Companion.ITEM
 import com.bootcamp.magic.R
 import com.bootcamp.magic.ViewModel.HomeFragmentViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class HomeFragment : Fragment(), RecycleViewInterface {
 
@@ -42,9 +51,7 @@ class HomeFragment : Fragment(), RecycleViewInterface {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mAdapter = CardsAdapter(Cards(arrayListOf()),this)
-        recycleCards.adapter = mAdapter
-        recycleCards.layoutManager = GridLayoutManager(requireContext(), 3)
+
     }
 
     private fun setObservable() {
@@ -54,10 +61,10 @@ class HomeFragment : Fragment(), RecycleViewInterface {
                     controlVisibility(BaseModel.Companion.STATUS.LOADING)
                 }
                 BaseModel.Companion.STATUS.SUCCESS -> {
-                    if (viewModel.getCardsList()==null){
-                        viewModel.getCards(viewModel.getSetCodeAtPosition(27))
+                    if (viewModel.dataCard.value == null){
+                        viewModel.getCards(viewModel.getSetCodeAtPosition(20))
                     }
-                    Log.i("aspk","SET CODE TO REQUEST CARDS: ${viewModel.getSetCodeAtPosition(27)}")
+                    Log.i("aspk","SET CODE TO REQUEST CARDS: ${viewModel.getSetCodeAtPosition(20)}")
                 }
                 BaseModel.Companion.STATUS.ERROR -> {
                     navigateToErrorFragment()
@@ -72,8 +79,7 @@ class HomeFragment : Fragment(), RecycleViewInterface {
 
                 }
                 BaseModel.Companion.STATUS.SUCCESS -> {
-                    it.data?.let { it1 -> mAdapter.addItems(it1) }
-                    controlVisibility(BaseModel.Companion.STATUS.SUCCESS)
+
 
                 }
 
@@ -83,20 +89,43 @@ class HomeFragment : Fragment(), RecycleViewInterface {
 
             }
         })
+        viewModel.objectList.observe(viewLifecycleOwner, Observer {
+            when(it.status){
+                BaseModel.Companion.STATUS.SUCCESS -> {
+                    it.data?.let { it1 -> bindDataToAdapter(it1) }
+                    controlVisibility(BaseModel.Companion.STATUS.SUCCESS)
+                }
+            }
+        })
+    }
+
+
+    private fun bindDataToAdapter(list:ArrayList<CardView>){
+        val mAdapter = CardsAdapter(list,this)
+        recycleCards.adapter = mAdapter
+        val layoutManager = GridLayoutManager(requireContext(), 3)
+        layoutManager.spanSizeLookup = object : SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return when (mAdapter.getItemViewType(position)) {
+                    HEADER_SET -> 3
+                    HEADER_TYPE -> 3
+                    ITEM -> 1
+                    else -> -1
+                }
+            }
+        }
+        recycleCards.layoutManager = layoutManager
     }
 
     private fun controlVisibility(it:BaseModel.Companion.STATUS){
         when (it){
             BaseModel.Companion.STATUS.LOADING -> {
-                home_loader_place_holder.visibility = View.VISIBLE
-                recycleCards.visibility = View.GONE
-                set_title.visibility = View.GONE
+                home_loader_place_holder.fadeIn()
+                recycleCards.fadeOut()
             }
             BaseModel.Companion.STATUS.SUCCESS -> {
-                home_loader_place_holder.visibility = View.GONE
-                recycleCards.visibility = View.VISIBLE
-                set_title.text = viewModel.getSetName()
-                set_title.visibility = View.VISIBLE
+                home_loader_place_holder.fadeOut()
+                recycleCards.fadeIn()
             }
 
 
@@ -113,21 +142,16 @@ class HomeFragment : Fragment(), RecycleViewInterface {
     }
 
 
-    override fun GoToDetails(card: Cards, index: Int) {
-        val action = HomeFragmentDirections.actionGoToDetail(
-            viewModel.getCardsList() ?: Cards(
-                arrayListOf()
-            ), index
-        )
-        findNavController().navigate(action)
-        callMainAnimationHideBottomTab()
-
-    }
-
     fun callMainAnimationHideBottomTab(){
         if ((requireActivity() as MainActivity) != null ){
             (requireActivity() as MainActivity).hideComponentsWhenGoToDetail()
         }
+    }
+
+    override fun GoToDetails(card: Cards, index: Int) {
+        val action = HomeFragmentDirections.actionGoToDetail(card, index)
+        findNavController().navigate(action)
+        callMainAnimationHideBottomTab()
     }
 
 

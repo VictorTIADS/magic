@@ -3,27 +3,40 @@ package com.bootcamp.magic.ViewModel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bootcamp.magic.Models.BaseModel
 import androidx.lifecycle.viewModelScope
-import com.bootcamp.magic.Models.Card
-import com.bootcamp.magic.Models.Cards
-import com.bootcamp.magic.Models.Sets
+import com.bootcamp.magic.Models.*
+import com.bootcamp.magic.Models.Constants.Companion.Artifact
+import com.bootcamp.magic.Models.Constants.Companion.Conspiracy
+import com.bootcamp.magic.Models.Constants.Companion.Creature
+import com.bootcamp.magic.Models.Constants.Companion.Enchantment
+import com.bootcamp.magic.Models.Constants.Companion.Instant
+import com.bootcamp.magic.Models.Constants.Companion.Land
+import com.bootcamp.magic.Models.Constants.Companion.Phenomenon
+import com.bootcamp.magic.Models.Constants.Companion.Plane
+import com.bootcamp.magic.Models.Constants.Companion.Planeswalker
+import com.bootcamp.magic.Models.Constants.Companion.Scheme
+import com.bootcamp.magic.Models.Constants.Companion.Sorcery
+import com.bootcamp.magic.Models.Constants.Companion.Tribal
+import com.bootcamp.magic.Models.Constants.Companion.Vanguard
 import com.bootcamp.magic.repository.ServiceRequestRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
+import kotlin.collections.ArrayList
 
-class HomeFragmentViewModel: ViewModel() {
+class HomeFragmentViewModel : ViewModel() {
 
-    private var page : Int = 1
+    private var page: Int = 1
     var total_count = 0
     var count = 0
+    val sep : MutableMap<String, ArrayList<Item>> = mutableMapOf()
+    val objectList = MutableLiveData<BaseModel<ArrayList<CardView>>>()
     val setName = MutableLiveData<String>()
     var list = Cards(arrayListOf())
-    val dataCard = MutableLiveData <BaseModel<Cards>>()
-    val dataSet = MutableLiveData <BaseModel<Sets>>()
-    var  service = ServiceRequestRepository()
+    val dataCard = MutableLiveData<BaseModel<Cards>>()
+    val dataSet = MutableLiveData<BaseModel<Sets>>()
+    var service = ServiceRequestRepository()
+
 
     companion object {
         private val instancia: HomeFragmentViewModel = HomeFragmentViewModel()
@@ -31,45 +44,54 @@ class HomeFragmentViewModel: ViewModel() {
     }
 
     init {
-        Log.i("aspk","INIT VIEWMODEL")
+        Log.i("aspk", "INIT VIEWMODEL")
         getSets()
     }
 
-    fun getCardsList() = dataCard.value?.data
+    fun getCardsList(): Items {
+        val items = Items(arrayListOf())
+        dataCard.value?.data?.cards?.map {
+            items.items.add(Item(it.multiverseid, it.name, it.imageUrl, it.set, it.types))
+        }
+        return items
+    }
+
     fun getSetList() = dataSet.value?.data
     fun getPage() = page
     fun getSetName() = setName.value
+    fun getObjectList() = objectList.value?.data
 
-    fun getSets(){
-        dataSet.value = BaseModel(null,BaseModel.Companion.STATUS.LOADING,null)
+    fun getSets() {
+        dataSet.value = BaseModel(null, BaseModel.Companion.STATUS.LOADING, null)
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 service.getSetsFromApi({ setsFromrepository ->
-                    if (setsFromrepository!=null){
-                        val listCorrect = setsFromrepository.sets.sortedWith( compareByDescending {it.releaseDate})
-                        val setsCorrect = Sets(listCorrect)
-                        dataSet.value = BaseModel(setsCorrect,BaseModel.Companion.STATUS.SUCCESS,null)
-                        setName.value = setsCorrect.sets[27].name
-                    }
-                },{
-                    dataSet.value = BaseModel(null, BaseModel.Companion.STATUS.ERROR,it)
+
+                    val listCorrect =
+                        setsFromrepository.sets.sortedWith(compareByDescending { it.releaseDate })
+                    val setsCorrect = Sets(listCorrect)
+                    dataSet.value = BaseModel(setsCorrect, BaseModel.Companion.STATUS.SUCCESS, null)
+                    setName.value = setsCorrect.sets[27].name
+
+                }, {
+                    dataSet.value = BaseModel(null, BaseModel.Companion.STATUS.ERROR, it)
                 })
             }
         }
 
     }
-    
 
 
-    fun getSetCodeAtPosition(position:Int): String? = when (dataSet.value?.status) {
-       BaseModel.Companion.STATUS.SUCCESS -> {
-           dataSet.value!!.data?.sets?.get(position)?.code
-       }
-       else -> {
-           null
-       }
-   }
-    fun getSetNameAtPosition(position:Int): String? = when (dataSet.value?.status) {
+    fun getSetCodeAtPosition(position: Int): String? = when (dataSet.value?.status) {
+        BaseModel.Companion.STATUS.SUCCESS -> {
+            dataSet.value!!.data?.sets?.get(position)?.code
+        }
+        else -> {
+            null
+        }
+    }
+
+    fun getSetNameAtPosition(position: Int): String? = when (dataSet.value?.status) {
         BaseModel.Companion.STATUS.SUCCESS -> {
             dataSet.value!!.data?.sets?.get(position)?.name
         }
@@ -79,24 +101,55 @@ class HomeFragmentViewModel: ViewModel() {
     }
 
 
-
-    fun getCards(set:String?){
+    fun getCards(set: String?) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
-                Log.i("aspk","PAGE: $page")
-                service.getCardsFromApi(set,page,{ cards, list_count ->
-                    Log.i("aspk","LIST SIZE: ${cards.cards.size}")
-                    if(cards.cards.size < 100){
-                        dataCard.value = BaseModel(list, BaseModel.Companion.STATUS.SUCCESS,null)
-                    }else{
+            withContext(Dispatchers.IO) {
+                Log.i("aspk", "PAGE: $page")
+                service.getCardsFromApi(set, page, { cards, _ ->
+                    Log.i("aspk", "LIST SIZE: ${cards.cards.size}")
+                    if (cards.cards.size < 100) {
+                        list.cards.addAll(cards.cards)
+                        val objects = arrayListOf<CardView>()
+                        objects.add(Header(getSetNameAtPosition(27) ?: ""))
+                        list.cards.forEach { card ->
+                            card.types.forEach { type ->
+                                if (!sep.containsKey(type)) sep[type] = ArrayList()
+                                sep[type]?.add(
+                                    Item(
+                                        card.multiverseid,
+                                        card.name,
+                                        card.imageUrl,
+                                        card.set,
+                                        card.types
+                                    )
+                                )
+                            }
+                        }
+
+                        sep.forEach {
+                            objects.add(Type(it.key))
+                            it.value.forEach { item -> objects.add(item) }
+                        }
+
+                        objectList.value =
+                            BaseModel(objects, BaseModel.Companion.STATUS.SUCCESS, null)
+                        dataCard.value = BaseModel(list, BaseModel.Companion.STATUS.SUCCESS, null)
+                    } else {
                         page++
                         list.cards.addAll(cards.cards)
-                        dataCard.value = BaseModel(list, BaseModel.Companion.STATUS.SUCCESS_STILL_HAVE_MORE,null)
-                        Log.i("aspk","COMPARATION: list : ${list.cards.size} dataCard: ${dataCard.value?.data?.cards?.size}")
-                        getCards(getSetCodeAtPosition(27))
+                        dataCard.value = BaseModel(
+                            list,
+                            BaseModel.Companion.STATUS.SUCCESS_STILL_HAVE_MORE,
+                            null
+                        )
+                        Log.i(
+                            "aspk",
+                            "COMPARATION: list : ${list.cards.size} dataCard: ${dataCard.value?.data?.cards?.size}"
+                        )
+                        getCards(getSetCodeAtPosition(20))
                     }
-                },{
-                    dataCard.value = BaseModel(null, BaseModel.Companion.STATUS.ERROR,it)
+                }, {
+                    dataCard.value = BaseModel(null, BaseModel.Companion.STATUS.ERROR, it)
                 })
             }
         }

@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bootcamp.magic.Models.Card
 import com.bootcamp.magic.Models.Cards
+import com.bootcamp.magic.Models.Item
+import com.bootcamp.magic.Models.Items
 import com.bootcamp.magic.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.detail_item_list.view.*

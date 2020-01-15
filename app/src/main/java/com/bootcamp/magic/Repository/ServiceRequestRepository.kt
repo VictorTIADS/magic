@@ -12,10 +12,6 @@ import retrofit2.Response
 
 class ServiceRequestRepository() {
 
-    var total_count_Sets:Int? = null
-
-
-
     fun getSetsFromApi(Success: (data: Sets) -> Unit,error: (message: String) -> Unit) {
         Log.i("aspk", "REPOSITORY SET CHAMADO")
         val request = RetrofitConfig().interfaceData()

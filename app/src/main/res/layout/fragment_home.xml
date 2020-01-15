@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,36 +8,21 @@
     android:orientation="vertical"
     tools:context=".View.HomeFragment">
 
-    <TextView
-        android:id="@+id/set_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="150dp"
-        android:fontFamily="@font/sanfrancisco"
-        android:text="How about these cards?"
-        android:textColor="@color/colorWhite"
-        android:textSize="36dp"
-        android:visibility="visible" />
-
-
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/home_loader_place_holder"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone">
+        android:layout_marginStart="20dp"
+        android:visibility="visible">
 
         <include layout="@layout/home_load_place_holder" />
     </com.facebook.shimmer.ShimmerFrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleCards"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:visibility="visible"
         tools:listitem="@layout/item_card" />
 
-</LinearLayout>
+</FrameLayout>
