@@ -26,7 +26,7 @@ class ServiceRequestRepository() {
                     if (response.body()!=null){
                         val body = response.body()
                         if (body != null) {
-                            Log.i("aspk", "SUCCESS FROM GET SET: ${response.raw().request()}")
+                            Log.i("aspk", "SUCCESS FROM GET SET: ${response.raw()}")
                             Success(body)
                         }
                     }
@@ -49,7 +49,7 @@ class ServiceRequestRepository() {
                         if (response.body()!=null){
                             val body = response.body()
                             Succes(body!!,response.headers().get("total-count")?.toInt())
-                            Log.i("aspk", "SUCCESS FROM GET CADS: ${response.raw().request()}")
+                            Log.i("aspk", "SUCCESS FROM GET CADS: ${response.raw()}")
                         }
                     }
                 }

@@ -34,6 +34,7 @@ fun Int.isDisplayed() {
         .check(matches(ViewMatchers.isDisplayed()))
 }
 
+
 fun ViewInteraction.hasViewWithDrawable(viewId: Int, drawableId: Int) =
     this.check(
         matches(
