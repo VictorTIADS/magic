@@ -40,7 +40,7 @@ class MainAct {
     }
 
     fun clickOnItemList() {
-        R.id.detail.clickOn()
+        //R.id.detail.clickOn()
     }
 
     fun clickOnDetailCloseButton() {
