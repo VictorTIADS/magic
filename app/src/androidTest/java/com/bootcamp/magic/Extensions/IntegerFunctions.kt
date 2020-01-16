@@ -49,6 +49,8 @@ fun ViewInteraction.hasViewWithDrawable(viewId: Int, drawableId: Int) =
 
 fun Int.atPosition(position: Int) = onView(withRecyclerView(this).atPosition(position))
 
+fun Int.clickAtPosition(position: Int) = onView(withRecyclerView(this).atPosition(position)).perform(ViewActions.click())
+
 fun <T : RecyclerView.ViewHolder> Int.isRecyclerWithItem(id: Int): ViewInteraction =
     onView(withId(this)).check(matches(hasDescendant(withId(id))))
 
