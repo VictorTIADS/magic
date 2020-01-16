@@ -50,18 +50,13 @@ class DetailFragment : Fragment() {
 
     private fun setUpListeners() {
         detail_button_close.setOnClickListener {
-            startAnim()
             findNavController().navigate(DetailFragmentDirections.actionGoToHomeFromDetail())
         }
 
 
     }
 
-    private fun startAnim() {
-        if ((requireActivity() as MainActivity) != null) {
-            (requireActivity() as MainActivity).showComponentsBack()
-        }
-    }
+
 
     private fun setUpScroll() {
         scrollView.scrollToPosition(viewModel.getIndexList())

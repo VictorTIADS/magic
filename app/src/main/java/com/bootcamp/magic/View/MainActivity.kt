@@ -1,6 +1,7 @@
 package com.bootcamp.magic.View
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
@@ -21,6 +22,31 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setUpNavController()
         bottomListener()
+
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            when (destination.id){
+                R.id.detail_fragment -> {
+                    hideComponentsWhenGoToDetail()
+                }
+                R.id.error_fragment -> {
+                    hideComponentsWhenGoToDetail()
+                }
+                R.id.empty_fragment -> {
+                    hideComponentsWhenGoToDetail()
+                }
+                R.id.home_fragment -> {
+                    if (content_bottom_navigation.visibility== View.GONE){
+                        showComponentsBack()
+                    }
+                }
+                R.id.favorite_fragment -> {
+                    if (content_bottom_navigation.visibility== View.GONE){
+                        showComponentsBack()
+                    }
+                }
+            }
+
+        }
     }
 
     private fun setUpNavController() {
