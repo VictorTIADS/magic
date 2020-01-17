@@ -102,20 +102,11 @@ class HomeFragment : Fragment(), RecycleViewInterface {
 
     private fun navigateToErrorFragment(){
         findNavController().navigate(HomeFragmentDirections.actionGoToError())
-        callMainAnimationHideBottomTab()
-    }
-
-
-    fun callMainAnimationHideBottomTab(){
-        if ((requireActivity() as MainActivity) != null ){
-            (requireActivity() as MainActivity).hideComponentsWhenGoToDetail()
-        }
     }
 
     override fun GoToDetails(card: Cards, index: Int) {
         val action = HomeFragmentDirections.actionGoToDetail(card, index)
         findNavController().navigate(action)
-        callMainAnimationHideBottomTab()
     }
 
 

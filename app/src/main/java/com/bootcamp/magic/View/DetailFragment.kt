@@ -65,8 +65,7 @@ class DetailFragment : Fragment() {
 
     private fun setUpListeners() {
         detail_button_close.setOnClickListener {
-            startAnim()
-            findNavController().navigateUp()
+            findNavController().navigate(DetailFragmentDirections.actionGoToHomeFromDetail())
         }
         detail_button_favorite.setOnClickListener {
 
@@ -82,7 +81,6 @@ class DetailFragment : Fragment() {
                 val item = viewModel.converterCardOFItem(listCards[scrollView.currentItem])
                 viewModel.insertCard(item)
             }
-        }
 
         viewModel.dataCard.observe(this, Observer {
 
@@ -95,11 +93,7 @@ class DetailFragment : Fragment() {
         }
     }
 
-    private fun startAnim() {
-        if ((requireActivity() as MainActivity) != null) {
-            (requireActivity() as MainActivity).showComponentsBack()
-        }
-    }
+
 
     private fun setUpScroll() {
 

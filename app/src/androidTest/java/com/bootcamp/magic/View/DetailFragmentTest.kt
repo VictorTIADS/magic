@@ -77,7 +77,7 @@ class DetailFragmentTest {
     fun whenDoNotLoadTheImage_shouldShowAPlaceHolder() {
         withDetailFragment {
             mockArgs()
-            mockCardsBadList()
+            mockCardsGoodList()
             mockIndex(0)
         } initHomeFragment {
 
@@ -90,7 +90,7 @@ class DetailFragmentTest {
     fun whenShowList_shouldShowItem() {
         withDetailFragment {
             mockArgs()
-            mockCardsBadList()
+            mockCardsGoodList()
             mockIndex(0)
         } initHomeFragment {
 
