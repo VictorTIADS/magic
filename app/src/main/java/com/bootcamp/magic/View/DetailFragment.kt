@@ -65,7 +65,7 @@ class DetailFragment : Fragment() {
 
     private fun setUpListeners() {
         detail_button_close.setOnClickListener {
-            findNavController().navigate(DetailFragmentDirections.actionGoToHomeFromDetail())
+            findNavController().navigateUp()
         }
         detail_button_favorite.setOnClickListener {
 
@@ -80,23 +80,21 @@ class DetailFragment : Fragment() {
                 val item = viewModel.converterCardOFItem(listCards[scrollView.currentItem])
                 viewModel.insertCard(item)
             }
+        }
+        viewModel.dataCard.observe(this, Observer {
 
-            viewModel.dataCard.observe(this, Observer {
+            listCards = viewModel.checkFavoritesCards(listCards)
+            setUpFavoriteButton()
+        })
 
-                listCards = viewModel.checkFavoritesCards(listCards)
-                setUpFavoriteButton()
-            })
-
-            scrollView.addOnItemChangedListener { viewHolder, i ->
-                setUpFavoriteButton()
-            }
+        scrollView.addOnItemChangedListener { viewHolder, i ->
+            setUpFavoriteButton()
         }
     }
 
 
 
     private fun setUpScroll() {
-
         scrollView.scrollToPosition(indexList)
         Log.i("aspk",indexList.toString())
     }
