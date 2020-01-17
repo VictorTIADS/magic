@@ -65,7 +65,7 @@ class DetailFragment : Fragment() {
 
     private fun setUpListeners() {
         detail_button_close.setOnClickListener {
-            findNavController().navigate(DetailFragmentDirections.actionGoToHomeFromDetail())
+            findNavController().navigateUp()
         }
         detail_button_favorite.setOnClickListener {
 
