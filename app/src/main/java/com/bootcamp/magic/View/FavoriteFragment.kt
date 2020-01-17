@@ -16,6 +16,7 @@ import com.bootcamp.magic.Models.Cards
 import com.bootcamp.magic.Models.adapter.CardsAdapter
 import com.bootcamp.magic.R
 import com.bootcamp.magic.ViewModel.FavoriteFragmentViewModel
+import kotlinx.android.synthetic.main.fragment_favorite.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -40,7 +41,7 @@ class FavoriteFragment : Fragment(), RecycleViewInterface {
 
     fun setupRecyclerView(){
         mAdapter = CardsAdapter(listOf(), this)
-        recycleCards.adapter = mAdapter
+        recycleCardsFavorite.adapter = mAdapter
         val layoutManager = GridLayoutManager(requireContext(), 3)
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup()
         {
@@ -53,7 +54,7 @@ class FavoriteFragment : Fragment(), RecycleViewInterface {
                 }
             }
         }
-        recycleCards.layoutManager = layoutManager
+        recycleCardsFavorite.layoutManager = layoutManager
     }
 
 
@@ -81,16 +82,10 @@ class FavoriteFragment : Fragment(), RecycleViewInterface {
         mAdapter.updateAdapter(list)
     }
 
-    fun callMainAnimationHideBottomTab(){
-        if ((requireActivity() as MainActivity) != null ){
-            (requireActivity() as MainActivity).hideComponentsWhenGoToDetail()
-        }
-    }
 
     override fun GoToDetails(card: Cards, index: Int) {
         val action = FavoriteFragmentDirections.actionGoToDetail(card,index)
         findNavController().navigate(action)
-        callMainAnimationHideBottomTab()
     }
 
 }
