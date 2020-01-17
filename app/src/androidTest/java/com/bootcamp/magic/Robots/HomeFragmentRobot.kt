@@ -140,7 +140,7 @@ class HomeFragmentAct {
 class HomeFragmentAssert {
 
     fun checkShimmerLoadIsDisplayed() {
-        R.id.home_loader_place_holder.isDisplayed()
+        verify { R.id.home_loader_place_holder.isDisplayed() }
     }
 
     fun checkListCardIsDisplayed(){
