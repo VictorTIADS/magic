@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.header_set.view.*
 import kotlinx.android.synthetic.main.item_card.view.*
 import kotlinx.android.synthetic.main.item_category.view.*
 
-class CardsAdapter(var items: List<CardView>, val interfaceClick: RecycleViewInterface?) :
+class CardsAdapter(var items: ArrayList<CardView>, val interfaceClick: RecycleViewInterface?) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var cards = Cards(arrayListOf())
@@ -97,7 +97,7 @@ class CardsAdapter(var items: List<CardView>, val interfaceClick: RecycleViewInt
         return viewHolder
     }
 
-    fun updateAdapter(list: List<CardView>){
+    fun updateAdapter(list: ArrayList<CardView>){
         items = list
         notifyDataSetChanged()
     }
@@ -126,7 +126,7 @@ class CardsAdapter(var items: List<CardView>, val interfaceClick: RecycleViewInt
         if (category != null) {
             viewHolderCategory.categoryTitle.text = category.title
             viewHolderCategory.categoryList.adapter =
-                CardsAdapter(category.itens, this.interfaceClick)
+                CardsAdapter(category.itens as ArrayList<CardView>, this.interfaceClick)
             viewHolderCategory.categoryList.layoutManager =
                 GridLayoutManager(viewHolderCategory.itemView.context, 3)
         }

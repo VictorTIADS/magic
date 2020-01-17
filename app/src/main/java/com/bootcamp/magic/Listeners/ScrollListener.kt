@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ScrollListener(
     val layoutManager: LinearLayoutManager,
-    val loadMore: () -> Unit
+    val loadMore: ((visibleItemCount: Int, totalItemCount: Int, firstVisibleItemPosition: Int) -> Unit)
 ) : RecyclerView.OnScrollListener() {
 
     var isScrolling = false
@@ -26,23 +26,11 @@ class ScrollListener(
     }
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-
-        Log.i(
-            "aspk",
-            "CurrentItems:${currentItems} scrolloutItems:${scrollOutItems} = ${totalItems} isScrolling:${isScrolling}"
-        )
-        currentItems = layoutManager.childCount
-        totalItems = layoutManager.itemCount
-        scrollOutItems = layoutManager.findFirstVisibleItemPosition()
-
-
-        if (isScrolling && (currentItems + scrollOutItems == totalItems)) {
-            //data fetch
-            isScrolling = false
-            loadMore()
-            Log.i("aspk","DEVE CARREGAR")
-        }
         super.onScrolled(recyclerView, dx, dy)
+        val visibleItemCount = layoutManager.childCount
+        val totalItemCount = layoutManager.itemCount
+        val findFirstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+        loadMore(visibleItemCount,totalItemCount,findFirstVisibleItemPosition)
     }
 
 

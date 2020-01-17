@@ -4,21 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bootcamp.magic.Database.dao.ItemsDAO
 import com.bootcamp.magic.Models.*
-import com.bootcamp.magic.Models.Constants.Companion.Artifact
-import com.bootcamp.magic.Models.Constants.Companion.Conspiracy
-import com.bootcamp.magic.Models.Constants.Companion.Creature
-import com.bootcamp.magic.Models.Constants.Companion.Enchantment
-import com.bootcamp.magic.Models.Constants.Companion.Instant
-import com.bootcamp.magic.Models.Constants.Companion.Land
-import com.bootcamp.magic.Models.Constants.Companion.Phenomenon
-import com.bootcamp.magic.Models.Constants.Companion.Plane
-import com.bootcamp.magic.Models.Constants.Companion.Planeswalker
-import com.bootcamp.magic.Models.Constants.Companion.Scheme
-import com.bootcamp.magic.Models.Constants.Companion.Sorcery
-import com.bootcamp.magic.Models.Constants.Companion.Tribal
-import com.bootcamp.magic.Models.Constants.Companion.Vanguard
 import com.bootcamp.magic.repository.ServiceRequestRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,8 +14,10 @@ import kotlin.collections.ArrayList
 class HomeFragmentViewModel() : ViewModel() {
 
     private var page: Int = 1
+    private var setPageIndex: Int = 1
     var total_count = 0
     var count = 0
+    private var isLoading = false
 
     val objectList = MutableLiveData<BaseModel<ArrayList<CardView>>>()
     val setName = MutableLiveData<String>()
@@ -46,10 +34,10 @@ class HomeFragmentViewModel() : ViewModel() {
 
     init {
         Log.i("aspk", "INIT VIEWMODEL")
-        getSets()
+        getSets(setPageIndex)
     }
 
-    fun getCardsList(): Items {
+    fun getCardsList(code: String?): Items {
         val items = Items(arrayListOf())
         dataCard.value?.data?.cards?.map {
             items.items.add(Item(it.multiverseid, it.name, it.imageUrl, it.set, it.favorite, it.types))
@@ -61,8 +49,17 @@ class HomeFragmentViewModel() : ViewModel() {
     fun getPage() = page
     fun getSetName() = setName.value
     fun getObjectList() = objectList.value?.data
+    fun getSetPageIndex() = setPageIndex
+    
+    fun loadMore(visibleItemCount: Int, totalItemCount: Int, firstVisibleItemPosition: Int){
+        if (((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0) && !isLoading) {
+            val setCode = getSetCodeAtPosition(setPageIndex)
+            getCardsList(setCode)
+        }
+    }
 
-    fun getSets() {
+    fun getSets(setPagescope:Int) {
+        isLoading = true
         dataSet.value = BaseModel(null, BaseModel.Companion.STATUS.LOADING, null)
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -72,8 +69,8 @@ class HomeFragmentViewModel() : ViewModel() {
                         setsFromrepository.sets.sortedWith(compareByDescending { it.releaseDate })
                     val setsCorrect = Sets(listCorrect)
                     dataSet.value = BaseModel(setsCorrect, BaseModel.Companion.STATUS.SUCCESS, null)
-                    setName.value = setsCorrect.sets[27].name
-
+                    setName.value = setsCorrect.sets[setPagescope].name
+                    isLoading = false
                 }, {
                     dataSet.value = BaseModel(null, BaseModel.Companion.STATUS.ERROR, it)
                 })
@@ -136,6 +133,7 @@ class HomeFragmentViewModel() : ViewModel() {
                         objectList.value =
                             BaseModel(objects, BaseModel.Companion.STATUS.SUCCESS, null)
                         dataCard.value = BaseModel(list, BaseModel.Companion.STATUS.SUCCESS, null)
+                        setPageIndex++
                     } else {
                         page++
                         list.cards.addAll(cards.cards)

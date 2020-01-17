@@ -15,6 +15,7 @@ import com.bootcamp.magic.Interface.RecycleViewInterface
 import com.bootcamp.magic.Models.BaseModel
 import com.bootcamp.magic.Models.CardView
 import com.bootcamp.magic.Models.Cards
+import com.bootcamp.magic.Models.Icard
 import com.bootcamp.magic.Models.adapter.CardsAdapter
 import com.bootcamp.magic.R
 import com.bootcamp.magic.ViewModel.FavoriteFragmentViewModel
@@ -43,7 +44,7 @@ class FavoriteFragment : Fragment(), RecycleViewInterface {
     }
 
     fun setupRecyclerView(){
-        mAdapter = CardsAdapter(listOf(), this)
+        mAdapter = CardsAdapter(arrayListOf(), this)
         recycleCardsFavorite.adapter = mAdapter
         val layoutManager = GridLayoutManager(requireContext(), 3)
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup()

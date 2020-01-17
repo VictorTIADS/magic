@@ -10,18 +10,22 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
+import androidx.recyclerview.widget.RecyclerView
 import com.bootcamp.magic.Animation.fadeIn
 import com.bootcamp.magic.Animation.fadeOut
 import com.bootcamp.magic.Interface.RecycleViewInterface
+import com.bootcamp.magic.Listeners.ScrollListener
 import com.bootcamp.magic.Models.BaseModel
 import com.bootcamp.magic.Models.CardView
 import com.bootcamp.magic.Models.Cards
+import com.bootcamp.magic.Models.Icard
 import com.bootcamp.magic.Models.adapter.CardsAdapter
 import com.bootcamp.magic.Models.adapter.CardsAdapter.Companion.CATEGORY_TYPE
 import com.bootcamp.magic.Models.adapter.CardsAdapter.Companion.HEADER_SET
 import com.bootcamp.magic.Models.adapter.CardsAdapter.Companion.ITEM
 import com.bootcamp.magic.R
 import com.bootcamp.magic.ViewModel.HomeFragmentViewModel
+import com.yarolegovich.discretescrollview.DiscreteScrollView
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -68,8 +72,8 @@ class HomeFragment : Fragment(), RecycleViewInterface {
     }
 
 
-    private fun bindDataToAdapter(list:ArrayList<CardView>){
-        val mAdapter = CardsAdapter(list,this)
+    private fun bindDataToAdapter(list:ArrayList<CardView>) {
+        val mAdapter = CardsAdapter(list, this)
         recycleCards.adapter = mAdapter
         val layoutManager = GridLayoutManager(requireContext(), 3)
         layoutManager.spanSizeLookup = object : SpanSizeLookup() {
@@ -83,7 +87,11 @@ class HomeFragment : Fragment(), RecycleViewInterface {
             }
         }
         recycleCards.layoutManager = layoutManager
+        recycleCards.addOnScrollListener(ScrollListener(layoutManager) { visibleItemCount, totalItemCount, firstVisibleItemPosition ->
+            viewModel.loadMore(visibleItemCount, totalItemCount, firstVisibleItemPosition)
+        })
     }
+
 
     private fun controlVisibility(it:BaseModel.Companion.STATUS){
         when (it){
