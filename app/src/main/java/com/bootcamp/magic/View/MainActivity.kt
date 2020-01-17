@@ -1,17 +1,17 @@
 package com.bootcamp.magic.View
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.MenuItem
-import androidx.core.view.get
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.bootcamp.magic.Animation.slideInUp
+import com.bootcamp.magic.Animation.slideOutDown
 import com.bootcamp.magic.R
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.tabs.TabLayout
+import com.bootcamp.magic.ViewModel.HomeFragmentViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.tab_bottom.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,20 +20,64 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setUpNavControler()
+        setUpNavController()
         bottomListener()
+
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            when (destination.id){
+                R.id.detail_fragment -> {
+                    hideComponentsWhenGoToDetail()
+                }
+                R.id.error_fragment -> {
+                    hideComponentsWhenGoToDetail()
+                }
+                R.id.empty_fragment -> {
+                    hideComponentsWhenGoToDetail()
+                }
+                R.id.home_fragment -> {
+                    if (content_bottom_navigation.visibility== View.GONE){
+                        showComponentsBack()
+                    }
+                }
+                R.id.favorite_fragment -> {
+                    if (content_bottom_navigation.visibility== View.GONE){
+                        showComponentsBack()
+                    }
+                }
+            }
+
+        }
     }
 
-    private fun setUpNavControler() {
+    private fun setUpNavController() {
         navController = Navigation.findNavController(this, R.id.nav_host)
     }
 
     private fun bottomListener() {
-        content_bottom_navigation.setOnClickListenerFirstButton {
-            navController.navigate(R.id.action_go_to_home)
+        content_bottom_navigation.setOnHomeClick {
+            if(navController.currentDestination?.id != R.id.home_fragment){
+                navController.navigate(R.id.action_go_to_home)
+            }
         }
-        content_bottom_navigation.setOnClickListenerSecondButton {
-            navController.navigate(R.id.action_go_to_favorite)
+        content_bottom_navigation.setOnFavoriteClick {
+            if(navController.currentDestination?.id != R.id.favorite_fragment){
+                navController.navigate(R.id.action_go_to_favorite)
+            }
         }
+    }
+
+    fun hideComponentsWhenGoToDetail() {
+        content_bottom_navigation.slideOutDown()
+        main_gradient.slideOutDown()
+    }
+
+    fun showComponentsBack() {
+        content_bottom_navigation.slideInUp()
+        main_gradient.slideInUp()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        navController.navigateUp()
     }
 }

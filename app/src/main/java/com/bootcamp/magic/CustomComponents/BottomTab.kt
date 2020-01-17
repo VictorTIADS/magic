@@ -30,13 +30,13 @@ class BottomTab(
         }
     }
 
-    fun setOnClickListenerFirstButton(func: () -> Unit){
+    fun setOnHomeClick(func: () -> Unit){
         home_button.setOnClickListener {
             func()
         }
     }
 
-    fun setOnClickListenerSecondButton(func: () -> Unit){
+    fun setOnFavoriteClick(func: () -> Unit){
         favorite_button.setOnClickListener {
             func()
         }

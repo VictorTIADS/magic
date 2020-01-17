@@ -7,40 +7,74 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 
-class MainActivityTest{
+class MainActivityTest {
 
     @Test
-    fun whenOpenActivity_shouldShowBottomTabs(){
+    fun whenOpenActivity_shouldShowBottomTabs() {
         withMainActivity {
 
         } initMainActivity {
-
+            replaceToEmpty()
         } checkIf {
             bottomTabIsDisplayed()
         }
     }
 
     @Test
-    fun whenClickOnHome_shouldNavigateToHomeFragment(){
+    fun whenError_shouldShowErrorFragment(){
+        withMainActivity {
+
+        } initMainActivity {
+            navigateToError()
+        } checkIf {
+            checkErrorFragment()
+        }
+    }
+
+    @Test
+    fun whenClickOnHome_shouldNavigateToHomeFragment() {
         withMainActivity {
 
         } initMainActivity {
             clickFavoriteBottomTab()
             clickHomeBottomTab()
         } checkIf {
-            checkGoToHome()
+            checkHomeFragment()
         }
     }
 
     @Test
-    fun whenClickOnFavorite_shouldNavigateToFavoriteFragment(){
+    fun whenClickOnFavorite_shouldNavigateToFavoriteFragment() {
         withMainActivity {
 
         } initMainActivity {
             clickFavoriteBottomTab()
         } checkIf {
-            checkGoToFavorites()
+            checkFavoriteFragment()
         }
     }
+
+//    @Test
+//    fun whenClickOnItemList_shouldShowDetailFragment() {
+//        withMainActivity {
+//
+//        } initMainActivity {
+//            clickOnItemList()
+//        } checkIf {
+//            checkDetailFragment()
+//        }
+//    }
+
+//    @Test
+//    fun whenClickOnCloseButtonInDetailFragment_shouldNavigateToHome() {
+//        withMainActivity {
+//
+//        } initMainActivity {
+//            clickOnItemList()
+//            clickOnDetailCloseButton()
+//        } checkIf {
+//            checkHomeFragment()
+//        }
+//    }
 
 }

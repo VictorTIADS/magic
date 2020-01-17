@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context=".View.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/home_loader_place_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:visibility="visible">
+
+        <include layout="@layout/home_load_place_holder" />
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleCards"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:textColor="@color/colorWhite"
-        android:textSize="26sp"
-        android:text="HOME\nasdasdasd\nasdasd\nasd\nasdasdasdasd\nnasdasdasdasd\nnasdasdasdasd\nnasdasdasdasd\nnasdasdasdasd\nnasdasdasdasd\nnasdasdasdasd\nnasdasdasdasd\nnasdasdasdasd\nnasdasdasdasd\nnasdasdasdasd\nnasdasdasdasd\nnasdasdasdasd\nnasdasdasdasd\nnasdasdasdasd\nnasdasdasdasd\nnasdasdasdasd\nnasdasdasdasd\nnasdasdasdasd\n" />
+        android:visibility="visible"
+        tools:listitem="@layout/item_card" />
 
 </FrameLayout>

@@ -3,5 +3,11 @@
     <string name="home">Home</string>
     <string name="Favorite">Favorite</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="emptyState">Sorry, no cards found</string>
+    <string name="error_message">Sorry, we could not load the list. It must be your internet connection.</string>
+    <string name="try_again">Try Again</string>
+
 
 </resources>
