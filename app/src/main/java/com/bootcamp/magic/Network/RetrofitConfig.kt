@@ -9,7 +9,11 @@ import java.util.concurrent.TimeUnit
 
 class RetrofitConfig(){
 
-    var BASE_URL = "https://api.magicthegathering.io/v1/"
+    companion object{
+        var BASE_URL = "https://api.magicthegathering.io/v1/"
+    }
+
+
 
     val okHttpClient = OkHttpClient.Builder()
         .readTimeout(40, TimeUnit.SECONDS)

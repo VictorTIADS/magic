@@ -83,4 +83,10 @@
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left" />
 
+    <action
+        android:id="@+id/action_go_to_empty"
+        app:destination="@id/empty_fragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left" />
+
 </navigation>

@@ -14,9 +14,20 @@ class MainActivityTest {
         withMainActivity {
 
         } initMainActivity {
-
+            replaceToEmpty()
         } checkIf {
             bottomTabIsDisplayed()
+        }
+    }
+
+    @Test
+    fun whenError_shouldShowErrorFragment(){
+        withMainActivity {
+
+        } initMainActivity {
+            navigateToError()
+        } checkIf {
+            checkErrorFragment()
         }
     }
 
@@ -28,7 +39,7 @@ class MainActivityTest {
             clickFavoriteBottomTab()
             clickHomeBottomTab()
         } checkIf {
-            checkGoToHome()
+            checkHomeFragment()
         }
     }
 
@@ -39,31 +50,31 @@ class MainActivityTest {
         } initMainActivity {
             clickFavoriteBottomTab()
         } checkIf {
-            checkGoToFavorites()
+            checkFavoriteFragment()
         }
     }
 
-    @Test
-    fun whenClickOnItemList_shouldShowDetailFragment() {
-        withMainActivity {
+//    @Test
+//    fun whenClickOnItemList_shouldShowDetailFragment() {
+//        withMainActivity {
+//
+//        } initMainActivity {
+//            clickOnItemList()
+//        } checkIf {
+//            checkDetailFragment()
+//        }
+//    }
 
-        } initMainActivity {
-            clickOnItemList()
-        } checkIf {
-            checkGoToDetail()
-        }
-    }
-
-    @Test
-    fun whenClickOnCloseButtonInDetailFragment_shouldNavigateToHome() {
-        withMainActivity {
-
-        } initMainActivity {
-            clickOnItemList()
-            clickOnDetailCloseButton()
-        } checkIf {
-            checkGoToHome()
-        }
-    }
+//    @Test
+//    fun whenClickOnCloseButtonInDetailFragment_shouldNavigateToHome() {
+//        withMainActivity {
+//
+//        } initMainActivity {
+//            clickOnItemList()
+//            clickOnDetailCloseButton()
+//        } checkIf {
+//            checkHomeFragment()
+//        }
+//    }
 
 }
