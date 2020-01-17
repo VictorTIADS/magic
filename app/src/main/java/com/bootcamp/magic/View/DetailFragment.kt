@@ -69,27 +69,27 @@ class DetailFragment : Fragment() {
         }
         detail_button_favorite.setOnClickListener {
 
-            if(listCards[scrollView.currentItem].favorite){
+            if (listCards[scrollView.currentItem].favorite) {
                 detail_button_favorite.text = "Favorite"
-                listCards[scrollView.currentItem].favorite  = false
+                listCards[scrollView.currentItem].favorite = false
                 val item = viewModel.converterCardOFItem(listCards[scrollView.currentItem])
                 viewModel.deleteCard(item)
-            }
-            else{
+            } else {
                 detail_button_favorite.text = "Unfavorite"
                 listCards[scrollView.currentItem].favorite = true
                 val item = viewModel.converterCardOFItem(listCards[scrollView.currentItem])
                 viewModel.insertCard(item)
             }
 
-        viewModel.dataCard.observe(this, Observer {
+            viewModel.dataCard.observe(this, Observer {
 
-            listCards = viewModel.checkFavoritesCards(listCards)
-            setUpFavoriteButton()
-        })
+                listCards = viewModel.checkFavoritesCards(listCards)
+                setUpFavoriteButton()
+            })
 
-        scrollView.addOnItemChangedListener { viewHolder, i ->
-            setUpFavoriteButton()
+            scrollView.addOnItemChangedListener { viewHolder, i ->
+                setUpFavoriteButton()
+            }
         }
     }
 

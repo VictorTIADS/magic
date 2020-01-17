@@ -31,9 +31,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.error_fragment -> {
                     hideComponentsWhenGoToDetail()
                 }
-                R.id.empty_fragment -> {
-                    hideComponentsWhenGoToDetail()
-                }
                 R.id.home_fragment -> {
                     if (content_bottom_navigation.visibility== View.GONE){
                         showComponentsBack()
