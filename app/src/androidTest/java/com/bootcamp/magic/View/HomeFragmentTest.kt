@@ -19,6 +19,7 @@ import com.bootcamp.magic.Utils.retry
 import io.mockk.mockk
 import io.mockk.verify
 import okhttp3.mockwebserver.MockResponse
+import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -31,7 +32,6 @@ class HomeFragmentTest {
 
     @get:Rule
     val mockWebServer = MockWebServerRule()
-
 
     @Test
     fun whenSuccess_shouldShowCardsList() {
@@ -126,9 +126,10 @@ class HomeFragmentTest {
     @Test
     fun whenError_shouldNavigateToErrorFragment() {
         withDetailFragment {
+
             mockABadCardsResponse(mockWebServer.mockWebServer)
         } initHomeFragment {
-
+            Thread.sleep(5000)
         } checkIf {
             retry {
                 checkNavigateToError()

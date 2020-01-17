@@ -30,10 +30,10 @@ android {
             resources.srcDirs "src/androidTest/resources"
         }
     }
-//    testOptions{
+    testOptions{
 //        execution  "ANDROIDX_TEST_ORCHESTRATOR"
-//        animationsDisabled  true
-//    }
+        animationsDisabled  true
+    }
 }
 
 dependencies {
@@ -91,7 +91,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
     androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestUtil 'androidx.test:orchestrator:1.1.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
     androidTestImplementation "io.mockk:mockk-android:1.9.3"
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0'
