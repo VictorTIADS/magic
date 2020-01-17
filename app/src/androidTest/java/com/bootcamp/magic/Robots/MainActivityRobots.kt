@@ -1,21 +1,12 @@
 package com.bootcamp.magic.Robots
 
-import androidx.fragment.app.testing.launchFragment
 import androidx.navigation.findNavController
 import androidx.test.core.app.ActivityScenario
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.core.internal.deps.guava.collect.Sets
-import com.bootcamp.magic.Extensions.atPosition
 import com.bootcamp.magic.Extensions.clickAtPosition
 import com.bootcamp.magic.Extensions.clickOn
 import com.bootcamp.magic.Extensions.isDisplayed
-import com.bootcamp.magic.Injection.viewmodel
 import com.bootcamp.magic.R
 import com.bootcamp.magic.View.*
-import com.bootcamp.magic.repository.ServiceRequestRepository
-import io.mockk.every
-import io.mockk.just
-import io.mockk.runs
 
 private lateinit var mainActivity: MainActivity
 
