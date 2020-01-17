@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bootcamp.magic.Animation.fadeIn
+import com.bootcamp.magic.Animation.fadeOut
 import com.bootcamp.magic.Interface.RecycleViewInterface
 import com.bootcamp.magic.Models.BaseModel
 import com.bootcamp.magic.Models.CardView
@@ -34,6 +36,7 @@ class FavoriteFragment : Fragment(), RecycleViewInterface {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        recycleCardsFavorite.fadeOut()
         viewModel.getFavorities()
         setupRecyclerView()
         setObserver()
@@ -79,6 +82,7 @@ class FavoriteFragment : Fragment(), RecycleViewInterface {
     }
 
     private fun bindDataToAdapter(list: ArrayList<CardView>) {
+        recycleCardsFavorite.fadeIn()
         mAdapter.updateAdapter(list)
     }
 
