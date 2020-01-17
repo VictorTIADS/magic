@@ -36,6 +36,11 @@
             app:destination="@id/detail_fragment"
             app:enterAnim="@anim/slide_in_down"
             app:popExitAnim="@anim/slide_out_down" />
+        <action
+            android:id="@+id/action_got_to_empty_from_favorite"
+            app:destination="@id/empty_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
 
     <fragment
