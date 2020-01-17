@@ -21,17 +21,6 @@ class MainActivityTest {
     }
 
     @Test
-    fun whenError_shouldShowErrorFragment(){
-        withMainActivity {
-
-        } initMainActivity {
-            navigateToError()
-        } checkIf {
-            checkErrorFragment()
-        }
-    }
-
-    @Test
     fun whenClickOnHome_shouldNavigateToHomeFragment() {
         withMainActivity {
 
@@ -53,28 +42,5 @@ class MainActivityTest {
             checkFavoriteFragment()
         }
     }
-
-//    @Test
-//    fun whenClickOnItemList_shouldShowDetailFragment() {
-//        withMainActivity {
-//
-//        } initMainActivity {
-//            clickOnItemList()
-//        } checkIf {
-//            checkDetailFragment()
-//        }
-//    }
-
-//    @Test
-//    fun whenClickOnCloseButtonInDetailFragment_shouldNavigateToHome() {
-//        withMainActivity {
-//
-//        } initMainActivity {
-//            clickOnItemList()
-//            clickOnDetailCloseButton()
-//        } checkIf {
-//            checkHomeFragment()
-//        }
-//    }
 
 }

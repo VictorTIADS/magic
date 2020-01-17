@@ -18,6 +18,7 @@ import com.bootcamp.magic.Injection.viewmodel
 import com.bootcamp.magic.Models.Cards
 import com.bootcamp.magic.Models.adapter.ViewHolderCategory
 import com.bootcamp.magic.Models.adapter.ViewHolderItem
+import com.bootcamp.magic.Models.adapter.ViewHolderSet
 import com.bootcamp.magic.R
 import com.bootcamp.magic.Robots.HomeFragmentAct.Companion.NAV_CONTROLLER_HOME
 import com.bootcamp.magic.Utils.MockedJsonReader
@@ -116,7 +117,7 @@ class HomeFragmentAct {
     }
 
     fun peformScrollRecyclerCards(position: Int) {
-        R.id.recycleCards.scrollToPostionRecyclerView<RecyclerView.ViewHolder>(position)
+        R.id.recycleCards.scrollToPostionRecyclerView<ViewHolderSet>(position)
     }
 
     fun peformScrollRecyclerCategory(position: Int) {
@@ -140,7 +141,7 @@ class HomeFragmentAct {
 class HomeFragmentAssert {
 
     fun checkShimmerLoadIsDisplayed() {
-        R.id.home_loader_place_holder.isDisplayed()
+        verify { R.id.home_loader_place_holder.isDisplayed() }
     }
 
     fun checkListCardIsDisplayed(){

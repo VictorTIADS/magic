@@ -1,17 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
+    android:orientation="vertical"
     tools:context=".View.EmptyFragment">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorWhite"
-        android:textSize="16dp"
         android:layout_gravity="center"
-        android:text="@string/emptyState" />
+        android:layout_weight="1"
+        android:fontFamily="@font/sanfrancisco"
+        android:text="@string/empty_message2"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="24dp" />
 
-</FrameLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="64dp"
+        android:fontFamily="@font/sanfrancisco"
+        android:text="@string/empty_message1"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="16dp" />
+
+</LinearLayout>

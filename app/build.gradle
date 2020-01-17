@@ -31,8 +31,8 @@ android {
         }
     }
     testOptions{
-//        execution  "ANDROIDX_TEST_ORCHESTRATOR"
-        animationsDisabled  true
+        execution  "ANDROIDX_TEST_ORCHESTRATOR"
+//        animationsDisabled  true
     }
 }
 
@@ -98,7 +98,7 @@ dependencies {
     testImplementation "io.mockk:mockk:1.9.3"
     //test recycler
     androidTestImplementation "androidx.test.espresso:espresso-contrib:3.2.0"
-    androidTestUtil "androidx.test:orchestrator:1.1.0"
+    androidTestUtil "androidx.test:orchestrator:1.2.0"
     debugImplementation "com.squareup.okhttp3:mockwebserver:4.3.1"
     implementation 'org.hamcrest:hamcrest-library:1.3'
     debugImplementation 'androidx.fragment:fragment-testing:1.1.0'

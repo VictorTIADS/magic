@@ -40,7 +40,6 @@ class HomeFragmentTest {
         } initHomeFragment {
 
         } checkIf {
-            Thread.sleep(1000)
             retry {
                 checkListCardIsDisplayed()
             }
@@ -51,7 +50,7 @@ class HomeFragmentTest {
     @Test
     fun whenOpenFragment_shouldShowShimmerLoader() {
         withDetailFragment {
-            mockABadCardsResponseWithDelay(mockWebServer.mockWebServer)
+            mockABadCardsResponse(mockWebServer.mockWebServer)
         } initHomeFragment {
 
         } checkIf {
@@ -83,7 +82,6 @@ class HomeFragmentTest {
         } initHomeFragment {
 
         } checkIf {
-            Thread.sleep(1000)
             retry {
                 checkisTypeNameDisplayed()
             }
@@ -96,7 +94,6 @@ class HomeFragmentTest {
         withDetailFragment {
             mockCardsResponse(mockWebServer.mockWebServer)
         } initHomeFragment {
-            Thread.sleep(3000)
         } checkIf {
 
             retry {
@@ -110,12 +107,10 @@ class HomeFragmentTest {
         withDetailFragment {
             mockCardsResponseWithCode(mockWebServer.mockWebServer, 200)
         } initHomeFragment {
-            Thread.sleep(5000)
             retry {
                 clickOnItemCategoryList()
             }
         } checkIf {
-            Thread.sleep(5000)
             retry {
                 checkNavigateToDetail()
             }
@@ -126,16 +121,18 @@ class HomeFragmentTest {
     @Test
     fun whenError_shouldNavigateToErrorFragment() {
         withDetailFragment {
-
             mockABadCardsResponse(mockWebServer.mockWebServer)
         } initHomeFragment {
-            Thread.sleep(5000)
         } checkIf {
             retry {
                 checkNavigateToError()
             }
         }
     }
+
+
+
+
 
 
 }
