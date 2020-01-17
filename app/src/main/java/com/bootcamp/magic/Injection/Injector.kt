@@ -11,7 +11,8 @@ fun Application.koinInjector(){
         androidContext(this@koinInjector)
         modules(
             arrayListOf(
-                viewmodel
+                viewmodel,
+                databaseModel
             )
         )
     }

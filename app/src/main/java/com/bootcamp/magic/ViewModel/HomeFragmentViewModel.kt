@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bootcamp.magic.Database.dao.ItemsDAO
 import com.bootcamp.magic.Models.*
 import com.bootcamp.magic.Models.Constants.Companion.Artifact
 import com.bootcamp.magic.Models.Constants.Companion.Conspiracy
@@ -24,12 +25,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.collections.ArrayList
 
-class HomeFragmentViewModel : ViewModel() {
+class HomeFragmentViewModel() : ViewModel() {
 
     private var page: Int = 1
     var total_count = 0
     var count = 0
-    val sep : MutableMap<String, ArrayList<Item>> = mutableMapOf()
+
     val objectList = MutableLiveData<BaseModel<ArrayList<CardView>>>()
     val setName = MutableLiveData<String>()
     var list = Cards(arrayListOf())
@@ -51,7 +52,7 @@ class HomeFragmentViewModel : ViewModel() {
     fun getCardsList(): Items {
         val items = Items(arrayListOf())
         dataCard.value?.data?.cards?.map {
-            items.items.add(Item(it.multiverseid, it.name, it.imageUrl, it.set, it.types))
+            items.items.add(Item(it.multiverseid, it.name, it.imageUrl, it.set, it.favorite, it.types))
         }
         return items
     }
@@ -102,6 +103,7 @@ class HomeFragmentViewModel : ViewModel() {
 
 
     fun getCards(set: String?) {
+        val sep : MutableMap<String, ArrayList<Item>> = mutableMapOf()
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 Log.i("aspk", "PAGE: $page")
@@ -120,6 +122,7 @@ class HomeFragmentViewModel : ViewModel() {
                                         card.name,
                                         card.imageUrl,
                                         card.set,
+                                        card.favorite,
                                         card.types
                                     )
                                 )
@@ -153,17 +156,6 @@ class HomeFragmentViewModel : ViewModel() {
             }
         }
 
-        //getAllCards()
+
     }
-
-    /*fun orderCards(){
-        val sortedList = dataSet.value?.data?.sets?.sortedWith( compareByDescending {it.releaseDate})
-        if (sortedList != null) {
-            dataSet.value?.data?.sets = sortedList
-        }
-
-
-    }*/
-
-
 }

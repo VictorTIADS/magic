@@ -6,12 +6,13 @@
     android:layout_gravity="center"
     tools:context=".View.FavoriteFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleCards"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="26sp"
-        android:text="FAVORITE" />
+        android:visibility="visible"
+        tools:listitem="@layout/item_card" />
 
 </FrameLayout>

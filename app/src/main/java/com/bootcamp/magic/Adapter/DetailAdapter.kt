@@ -13,12 +13,12 @@ import com.bootcamp.magic.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.detail_item_list.view.*
 
-class DetailAdapter(var context: Context, var cardsList: Cards) :
+class DetailAdapter(var context: Context, var cardsList: ArrayList<Card>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val card = cardsList.cards[position]
+        val card = cardsList[position]
         val image = holder.itemView.image_item
         image.setImageResource(R.drawable.magic_place_holder)
         Picasso.get().load(card.imageUrl.convertToHttps())
@@ -34,7 +34,7 @@ class DetailAdapter(var context: Context, var cardsList: Cards) :
 
     private fun String?.convertToHttps() = this?.replace("http://", "https://")
 
-    override fun getItemCount() = cardsList.cards.size
+    override fun getItemCount() = cardsList.size
 }
 
-class ViewlHolder(val itemView: View) : RecyclerView.ViewHolder(itemView)
+class ViewlHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
