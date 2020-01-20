@@ -102,6 +102,13 @@ class CardsAdapter(var items: ArrayList<CardView>, val interfaceClick: RecycleVi
         notifyDataSetChanged()
     }
 
+    fun addMoreCards(list: ArrayList<CardView>){
+//        items.addAll(list)
+//        notifyDataSetChanged()
+        items = list
+        notifyDataSetChanged()
+    }
+
 
     fun configureViewHolderSet(viewHolderSet: ViewHolderSet, position: Int) {
         val headerSet = items[position] as Header

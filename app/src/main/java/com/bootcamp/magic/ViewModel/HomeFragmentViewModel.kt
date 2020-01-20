@@ -17,7 +17,7 @@ class HomeFragmentViewModel() : ViewModel() {
     private var setPageIndex: Int = 1
     var total_count = 0
     var count = 0
-    private var isLoading = false
+    var isLoading = false
 
     val objectList = MutableLiveData<BaseModel<ArrayList<CardView>>>()
     val setName = MutableLiveData<String>()
@@ -54,12 +54,12 @@ class HomeFragmentViewModel() : ViewModel() {
     fun loadMore(visibleItemCount: Int, totalItemCount: Int, firstVisibleItemPosition: Int){
         if (((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0) && !isLoading) {
             val setCode = getSetCodeAtPosition(setPageIndex)
-            getCardsList(setCode)
+            getCards(setCode)
         }
     }
 
     fun getSets(setPagescope:Int) {
-        isLoading = true
+
         dataSet.value = BaseModel(null, BaseModel.Companion.STATUS.LOADING, null)
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -70,7 +70,7 @@ class HomeFragmentViewModel() : ViewModel() {
                     val setsCorrect = Sets(listCorrect)
                     dataSet.value = BaseModel(setsCorrect, BaseModel.Companion.STATUS.SUCCESS, null)
                     setName.value = setsCorrect.sets[setPagescope].name
-                    isLoading = false
+
                 }, {
                     dataSet.value = BaseModel(null, BaseModel.Companion.STATUS.ERROR, it)
                 })
@@ -100,16 +100,26 @@ class HomeFragmentViewModel() : ViewModel() {
 
 
     fun getCards(set: String?) {
+        dataCard.value = BaseModel(null, BaseModel.Companion.STATUS.LOADING, null)
+        isLoading = true
         val sep : MutableMap<String, ArrayList<Item>> = mutableMapOf()
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 Log.i("aspk", "PAGE: $page")
                 service.getCardsFromApi(set, page, { cards, _ ->
                     Log.i("aspk", "LIST SIZE: ${cards.cards.size}")
+
                     if (cards.cards.size < 100) {
                         list.cards.addAll(cards.cards)
+
                         val objects = arrayListOf<CardView>()
-                        objects.add(Header(getSetNameAtPosition(27) ?: ""))
+                        val last = objectList.value?.data
+                        if (last != null) {
+                            objects.addAll(last)
+                        }
+
+                        objects.add(Header(getSetNameAtPosition(getSetPageIndex()) ?: ""))
+
                         list.cards.forEach { card ->
                             card.types.forEach { type ->
                                 if (!sep.containsKey(type)) sep[type] = ArrayList()
@@ -130,10 +140,11 @@ class HomeFragmentViewModel() : ViewModel() {
                             objects.add( Category( it.key, it.value))
                         }
 
-                        objectList.value =
-                            BaseModel(objects, BaseModel.Companion.STATUS.SUCCESS, null)
+                        objectList.value = BaseModel(objects, BaseModel.Companion.STATUS.SUCCESS, null)
                         dataCard.value = BaseModel(list, BaseModel.Companion.STATUS.SUCCESS, null)
                         setPageIndex++
+                        isLoading = false
+
                     } else {
                         page++
                         list.cards.addAll(cards.cards)
@@ -146,7 +157,7 @@ class HomeFragmentViewModel() : ViewModel() {
                             "aspk",
                             "COMPARATION: list : ${list.cards.size} dataCard: ${dataCard.value?.data?.cards?.size}"
                         )
-                        getCards(getSetCodeAtPosition(20))
+                        getCards(getSetCodeAtPosition(getSetPageIndex()))
                     }
                 }, {
                     dataCard.value = BaseModel(null, BaseModel.Companion.STATUS.ERROR, it)

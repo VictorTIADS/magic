@@ -15,7 +15,6 @@ import com.bootcamp.magic.Interface.RecycleViewInterface
 import com.bootcamp.magic.Models.BaseModel
 import com.bootcamp.magic.Models.CardView
 import com.bootcamp.magic.Models.Cards
-import com.bootcamp.magic.Models.Icard
 import com.bootcamp.magic.Models.adapter.CardsAdapter
 import com.bootcamp.magic.R
 import com.bootcamp.magic.ViewModel.FavoriteFragmentViewModel
