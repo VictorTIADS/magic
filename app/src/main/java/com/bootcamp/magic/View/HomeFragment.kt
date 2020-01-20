@@ -69,11 +69,9 @@ class HomeFragment : Fragment(), RecycleViewInterface {
         viewModel.dataCard.observe(this, Observer {
             when (it.status) {
                 BaseModel.Companion.STATUS.LOADING -> {
-                    if (home_loader_place_holder.visibility == View.GONE) {
-                        progress_bar.fadeIn()
-                        loader_status_page.text =
-                            "Carregando ${viewModel.getSetNameAtPosition(viewModel.getSetPageIndex() + 1)}"
-                    }
+                    progress_bar.fadeIn()
+                    loader_status_page.text =
+                        "Carregando..."
 
                 }
                 BaseModel.Companion.STATUS.SUCCESS -> {
@@ -110,7 +108,7 @@ class HomeFragment : Fragment(), RecycleViewInterface {
             BaseModel.Companion.STATUS.SUCCESS -> {
                 home_loader_place_holder.fadeOut()
                 recycleCards.fadeIn()
-                progress_bar.visibility = View.GONE
+
             }
 
 
