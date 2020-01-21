@@ -1,32 +1,24 @@
 package com.bootcamp.magic.Robots
 
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import com.bootcamp.magic.Adapter.ViewlHolder
 import com.bootcamp.magic.Extensions.atPosition
 import com.bootcamp.magic.Extensions.clickAtPosition
 import com.bootcamp.magic.Extensions.isDisplayed
 import com.bootcamp.magic.Extensions.scrollToPostionRecyclerView
-import com.bootcamp.magic.Injection.viewmodel
-import com.bootcamp.magic.Models.Cards
-import com.bootcamp.magic.Models.adapter.ViewHolderCategory
 import com.bootcamp.magic.Models.adapter.ViewHolderItem
+import com.bootcamp.magic.Models.adapter.ViewHolderSet
 import com.bootcamp.magic.R
 import com.bootcamp.magic.Robots.HomeFragmentAct.Companion.NAV_CONTROLLER_HOME
 import com.bootcamp.magic.Utils.MockedJsonReader
 import com.bootcamp.magic.View.HomeFragment
-import com.bootcamp.magic.View.HomeFragmentDirections
 import com.bootcamp.magic.View.HomeFragmentTest
-import com.bootcamp.magic.View.MainActivity
-import io.mockk.*
-import kotlinx.android.synthetic.main.fragment_home.*
+import io.mockk.mockk
+import io.mockk.verify
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import java.util.concurrent.TimeUnit
@@ -116,7 +108,7 @@ class HomeFragmentAct {
     }
 
     fun peformScrollRecyclerCards(position: Int) {
-        R.id.recycleCards.scrollToPostionRecyclerView<RecyclerView.ViewHolder>(position)
+        R.id.recycleCards.scrollToPostionRecyclerView<ViewHolderSet>(position)
     }
 
     fun peformScrollRecyclerCategory(position: Int) {
@@ -140,7 +132,7 @@ class HomeFragmentAct {
 class HomeFragmentAssert {
 
     fun checkShimmerLoadIsDisplayed() {
-        R.id.home_loader_place_holder.isDisplayed()
+        verify { R.id.home_loader_place_holder.isDisplayed() }
     }
 
     fun checkListCardIsDisplayed(){

@@ -9,10 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import com.bootcamp.magic.Animation.fadeIn
 import com.bootcamp.magic.Animation.fadeOut
 import com.bootcamp.magic.Interface.RecycleViewInterface
+import com.bootcamp.magic.Listeners.ScrollListener
 import com.bootcamp.magic.Models.BaseModel
 import com.bootcamp.magic.Models.CardView
 import com.bootcamp.magic.Models.Cards
@@ -23,12 +23,14 @@ import com.bootcamp.magic.Models.adapter.CardsAdapter.Companion.ITEM
 import com.bootcamp.magic.R
 import com.bootcamp.magic.ViewModel.HomeFragmentViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.loader_bottom.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class HomeFragment : Fragment(), RecycleViewInterface {
 
     private val viewModel: HomeFragmentViewModel by viewModel()
+    lateinit var mAdapter: CardsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,17 +40,25 @@ class HomeFragment : Fragment(), RecycleViewInterface {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+    }
+
     private fun setObservable() {
         viewModel.dataSet.observe(viewLifecycleOwner, Observer {
-            when (it.status){
+            when (it.status) {
                 BaseModel.Companion.STATUS.LOADING -> {
                     controlVisibility(BaseModel.Companion.STATUS.LOADING)
                 }
                 BaseModel.Companion.STATUS.SUCCESS -> {
-                    if (viewModel.dataCard.value == null){
-                        viewModel.getCards(viewModel.getSetCodeAtPosition(20))
+                    if (viewModel.dataCard.value == null) {
+                        viewModel.getCards(viewModel.getSetCodeAtPosition(viewModel.getSetPageIndex()))
                     }
-                    Log.i("aspk","SET CODE TO REQUEST CARDS: ${viewModel.getSetCodeAtPosition(20)}")
+                    Log.i(
+                        "aspk",
+                        "SET CODE TO REQUEST CARDS: ${viewModel.getSetCodeAtPosition(viewModel.getSetPageIndex())}"
+                    )
                 }
                 BaseModel.Companion.STATUS.ERROR -> {
                     navigateToErrorFragment()
@@ -56,22 +66,60 @@ class HomeFragment : Fragment(), RecycleViewInterface {
 
             }
         })
+        viewModel.dataCard.observe(this, Observer {
+            when (it.status) {
+                BaseModel.Companion.STATUS.LOADING -> {
+                    progress_bar.fadeIn()
+                    loader_status_page.text =
+                        "Carregando..."
+
+                }
+                BaseModel.Companion.STATUS.SUCCESS -> {
+                    progress_bar.fadeOut()
+                }
+            }
+
+        })
         viewModel.objectList.observe(viewLifecycleOwner, Observer {
-            when(it.status){
+            when (it.status) {
                 BaseModel.Companion.STATUS.SUCCESS -> {
                     it.data?.let { it1 -> bindDataToAdapter(it1) }
                     controlVisibility(BaseModel.Companion.STATUS.SUCCESS)
                 }
             }
         })
+
     }
 
 
-    private fun bindDataToAdapter(list:ArrayList<CardView>){
-        val mAdapter = CardsAdapter(list,this)
+    private fun bindDataToAdapter(list: ArrayList<CardView>) {
+        recycleCards.fadeIn()
+        mAdapter.addMoreCards(list)
+    }
+
+
+    private fun controlVisibility(it: BaseModel.Companion.STATUS) {
+        when (it) {
+            BaseModel.Companion.STATUS.LOADING -> {
+                home_loader_place_holder.fadeIn()
+                recycleCards.fadeOut()
+
+            }
+            BaseModel.Companion.STATUS.SUCCESS -> {
+                home_loader_place_holder.fadeOut()
+                recycleCards.fadeIn()
+
+            }
+
+
+        }
+    }
+
+    fun setupRecyclerView() {
+        mAdapter = CardsAdapter(arrayListOf(), this)
         recycleCards.adapter = mAdapter
         val layoutManager = GridLayoutManager(requireContext(), 3)
-        layoutManager.spanSizeLookup = object : SpanSizeLookup() {
+        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return when (mAdapter.getItemViewType(position)) {
                     HEADER_SET -> 3
@@ -82,24 +130,12 @@ class HomeFragment : Fragment(), RecycleViewInterface {
             }
         }
         recycleCards.layoutManager = layoutManager
+        recycleCards.addOnScrollListener(ScrollListener(layoutManager) { visibleItemCount, totalItemCount, firstVisibleItemPosition ->
+            viewModel.loadMore(visibleItemCount, totalItemCount, firstVisibleItemPosition)
+        })
     }
 
-    private fun controlVisibility(it:BaseModel.Companion.STATUS){
-        when (it){
-            BaseModel.Companion.STATUS.LOADING -> {
-                home_loader_place_holder.fadeIn()
-                recycleCards.fadeOut()
-            }
-            BaseModel.Companion.STATUS.SUCCESS -> {
-                home_loader_place_holder.fadeOut()
-                recycleCards.fadeIn()
-            }
-
-
-        }
-    }
-
-    private fun navigateToErrorFragment(){
+    private fun navigateToErrorFragment() {
         findNavController().navigate(HomeFragmentDirections.actionGoToError())
     }
 

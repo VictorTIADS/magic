@@ -70,6 +70,7 @@ class DetailFragmentAct {
                     "A",
                     "asd",
                     "A",
+                    false,
                     arrayListOf()
                 ),
                 Card(
@@ -77,6 +78,7 @@ class DetailFragmentAct {
                     "A",
                     "asd",
                     "A",
+                    false,
                     arrayListOf()
                 ),
                 Card(
@@ -84,6 +86,7 @@ class DetailFragmentAct {
                     "A",
                     "asd",
                     "A",
+                    false,
                     arrayListOf()
                 ),
                 Card(
@@ -91,6 +94,7 @@ class DetailFragmentAct {
                     "A",
                     "asd",
                     "A",
+                    false,
                     arrayListOf()
                 ),
                 Card(
@@ -98,6 +102,7 @@ class DetailFragmentAct {
                     "A",
                     "asd",
                     "A",
+                    false,
                     arrayListOf()
                 ),
                 Card(
@@ -105,6 +110,7 @@ class DetailFragmentAct {
                     "A",
                     "asd",
                     "A",
+                    false,
                     arrayListOf()
                 ),
                 Card(
@@ -112,6 +118,7 @@ class DetailFragmentAct {
                     "A",
                     "asd",
                     "A",
+                    false,
                     arrayListOf()
                 ),
                 Card(
@@ -119,6 +126,7 @@ class DetailFragmentAct {
                     "A",
                     "asd",
                     "A",
+                    false,
                     arrayListOf()
                 ),
                 Card(
@@ -126,6 +134,7 @@ class DetailFragmentAct {
                     "A",
                     "asd",
                     "A",
+                    false,
                     arrayListOf()
                 ),
                 Card(
@@ -133,6 +142,7 @@ class DetailFragmentAct {
                     "A",
                     "asd",
                     "A",
+                    false,
                     arrayListOf()
                 )
             )
@@ -148,6 +158,7 @@ class DetailFragmentAct {
                     "A",
                     "",
                     "A",
+                    false,
                     arrayListOf()
                 )
             )

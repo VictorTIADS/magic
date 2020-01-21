@@ -25,8 +25,10 @@ class BottomTab(
             home_button.text = getString(R.styleable.BottomTab_firstButtonName)
             favorite_button.text = getString(R.styleable.BottomTab_secondButtonName)
 
-            top_line.setBackgroundColor(ContextCompat.getColor(context, getResourceId(R.styleable.BottomTab_colorTopLine, android.R.color.white)))
-            middle_line.setBackgroundColor(ContextCompat.getColor(context, getResourceId(R.styleable.BottomTab_colorMiddleLine, android.R.color.white)))
+            top_line.setBackgroundColor(ContextCompat.getColor(context, getResourceId(
+                R.styleable.BottomTab_colorTopLine, android.R.color.white)))
+            middle_line.setBackgroundColor(ContextCompat.getColor(context, getResourceId(
+                R.styleable.BottomTab_colorMiddleLine, android.R.color.white)))
         }
     }
 

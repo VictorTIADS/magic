@@ -12,11 +12,10 @@ import com.bootcamp.magic.Models.*
 import com.bootcamp.magic.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.header_set.view.*
-import kotlinx.android.synthetic.main.header_type.view.*
 import kotlinx.android.synthetic.main.item_card.view.*
 import kotlinx.android.synthetic.main.item_category.view.*
 
-class CardsAdapter(var items: List<CardView>, val interfaceClick: RecycleViewInterface) :
+class CardsAdapter(var items: ArrayList<CardView>, val interfaceClick: RecycleViewInterface?) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var cards = Cards(arrayListOf())
@@ -47,7 +46,6 @@ class CardsAdapter(var items: List<CardView>, val interfaceClick: RecycleViewInt
         }
     }
 
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder.itemViewType) {
             HEADER_SET -> {
@@ -56,12 +54,12 @@ class CardsAdapter(var items: List<CardView>, val interfaceClick: RecycleViewInt
             }
             ITEM -> {
                 val item = items[position] as Item
-                val sap = Card(item.multiverseid, item.name, item.imageUrl, item.set, item.types)
+                val sap = Card(item.multiverseid, item.name, item.imageUrl, item.set,item.favorite, item.types)
                 cards.cards.add(sap)
                 val viewHolderItem = holder as ViewHolderItem
                 configureViewHolderItem(viewHolderItem, position)
                 viewHolderItem.itemView.setOnClickListener {
-                    interfaceClick.GoToDetails(cards, position)
+                    interfaceClick?.GoToDetails(cards, position)
                 }
             }
             CATEGORY_TYPE -> {
@@ -99,6 +97,18 @@ class CardsAdapter(var items: List<CardView>, val interfaceClick: RecycleViewInt
         return viewHolder
     }
 
+    fun updateAdapter(list: ArrayList<CardView>){
+        items = list
+        notifyDataSetChanged()
+    }
+
+    fun addMoreCards(list: ArrayList<CardView>){
+//        items.addAll(list)
+//        notifyDataSetChanged()
+        items = list
+        notifyDataSetChanged()
+    }
+
 
     fun configureViewHolderSet(viewHolderSet: ViewHolderSet, position: Int) {
         val headerSet = items[position] as Header
@@ -123,7 +133,7 @@ class CardsAdapter(var items: List<CardView>, val interfaceClick: RecycleViewInt
         if (category != null) {
             viewHolderCategory.categoryTitle.text = category.title
             viewHolderCategory.categoryList.adapter =
-                CardsAdapter(category.itens, this.interfaceClick)
+                CardsAdapter(category.itens as ArrayList<CardView>, this.interfaceClick)
             viewHolderCategory.categoryList.layoutManager =
                 GridLayoutManager(viewHolderCategory.itemView.context, 3)
         }

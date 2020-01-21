@@ -14,8 +14,8 @@
             android:id="@+id/action_go_to_detail"
             app:destination="@id/detail_fragment"
             app:enterAnim="@anim/slide_in_down"
-            app:exitAnim="@anim/slide_out_down"
-            app:popExitAnim="@anim/slide_out_down" />
+            app:exitAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_out" />
 
         <action
             android:id="@+id/action_go_to_error"
@@ -34,8 +34,14 @@
         <action
             android:id="@+id/action_go_to_detail"
             app:destination="@id/detail_fragment"
+            app:exitAnim="@anim/fade_out"
             app:enterAnim="@anim/slide_in_down"
-            app:popExitAnim="@anim/slide_out_down" />
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_got_to_empty_from_favorite"
+            app:destination="@id/empty_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
 
     <fragment

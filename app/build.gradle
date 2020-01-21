@@ -6,6 +6,9 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
+apply plugin: 'kotlin-kapt'
+
+
 
 android {
     compileSdkVersion 29
@@ -31,8 +34,8 @@ android {
         }
     }
     testOptions{
-//        execution  "ANDROIDX_TEST_ORCHESTRATOR"
-        animationsDisabled  true
+        execution  "ANDROIDX_TEST_ORCHESTRATOR"
+//        animationsDisabled  true
     }
 }
 
@@ -80,9 +83,21 @@ dependencies {
     //LOADS
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
+    //SNACKBAR
+    implementation "org.jetbrains.anko:anko-commons:0.10.8"
+    implementation "org.jetbrains.anko:anko-design:0.10.8"
 
-    
-
+    //ROOM
+    implementation "androidx.room:room-runtime:2.2.2"
+    kapt "androidx.room:room-compiler:2.2.2"
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:2.2.2"
+    // optional - RxJava support for Room
+    implementation "androidx.room:room-rxjava2:2.2.2"
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    implementation "androidx.room:room-guava:2.2.2"
+    // Test helpers
+    testImplementation "androidx.room:room-testing:2.2.2"
 
     //TEST
     testImplementation 'junit:junit:4.12'
@@ -98,7 +113,7 @@ dependencies {
     testImplementation "io.mockk:mockk:1.9.3"
     //test recycler
     androidTestImplementation "androidx.test.espresso:espresso-contrib:3.2.0"
-    androidTestUtil "androidx.test:orchestrator:1.1.0"
+    androidTestUtil "androidx.test:orchestrator:1.2.0"
     debugImplementation "com.squareup.okhttp3:mockwebserver:4.3.1"
     implementation 'org.hamcrest:hamcrest-library:1.3'
     debugImplementation 'androidx.fragment:fragment-testing:1.1.0'

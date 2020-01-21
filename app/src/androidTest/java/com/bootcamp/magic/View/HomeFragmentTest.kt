@@ -1,27 +1,9 @@
 package com.bootcamp.magic.View
 
-import android.os.Bundle
-import androidx.fragment.app.testing.FragmentScenario
-import androidx.fragment.app.testing.FragmentScenario.launchInContainer
-import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.bootcamp.magic.Extensions.clickAtPosition
-import com.bootcamp.magic.Extensions.clickOn
 import com.bootcamp.magic.MockWebServerRule
-import com.bootcamp.magic.R
 import com.bootcamp.magic.Robots.withDetailFragment
-import com.bootcamp.magic.Utils.MockedJsonReader
 import com.bootcamp.magic.Utils.retry
-import io.mockk.mockk
-import io.mockk.verify
-import okhttp3.mockwebserver.MockResponse
-import org.junit.After
-import org.junit.Assert.*
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -40,7 +22,6 @@ class HomeFragmentTest {
         } initHomeFragment {
 
         } checkIf {
-            Thread.sleep(1000)
             retry {
                 checkListCardIsDisplayed()
             }
@@ -51,7 +32,7 @@ class HomeFragmentTest {
     @Test
     fun whenOpenFragment_shouldShowShimmerLoader() {
         withDetailFragment {
-            mockABadCardsResponseWithDelay(mockWebServer.mockWebServer)
+            mockABadCardsResponse(mockWebServer.mockWebServer)
         } initHomeFragment {
 
         } checkIf {
@@ -83,7 +64,6 @@ class HomeFragmentTest {
         } initHomeFragment {
 
         } checkIf {
-            Thread.sleep(1000)
             retry {
                 checkisTypeNameDisplayed()
             }
@@ -96,7 +76,6 @@ class HomeFragmentTest {
         withDetailFragment {
             mockCardsResponse(mockWebServer.mockWebServer)
         } initHomeFragment {
-            Thread.sleep(3000)
         } checkIf {
 
             retry {
@@ -110,12 +89,10 @@ class HomeFragmentTest {
         withDetailFragment {
             mockCardsResponseWithCode(mockWebServer.mockWebServer, 200)
         } initHomeFragment {
-            Thread.sleep(5000)
             retry {
                 clickOnItemCategoryList()
             }
         } checkIf {
-            Thread.sleep(5000)
             retry {
                 checkNavigateToDetail()
             }
@@ -126,16 +103,18 @@ class HomeFragmentTest {
     @Test
     fun whenError_shouldNavigateToErrorFragment() {
         withDetailFragment {
-
             mockABadCardsResponse(mockWebServer.mockWebServer)
         } initHomeFragment {
-            Thread.sleep(5000)
         } checkIf {
             retry {
                 checkNavigateToError()
             }
         }
     }
+
+
+
+
 
 
 }
