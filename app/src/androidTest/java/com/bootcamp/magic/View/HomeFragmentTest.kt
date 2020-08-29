@@ -18,7 +18,7 @@ class HomeFragmentTest {
     @Test
     fun whenSuccess_shouldShowCardsList() {
         withDetailFragment {
-            mockCardsResponse(mockWebServer.mockWebServer)
+            mockCardsResponse(mockWebServer.mock)
         } initHomeFragment {
 
         } checkIf {
@@ -32,7 +32,7 @@ class HomeFragmentTest {
     @Test
     fun whenOpenFragment_shouldShowShimmerLoader() {
         withDetailFragment {
-            mockABadCardsResponse(mockWebServer.mockWebServer)
+            mockABadCardsResponse(mockWebServer.mock)
         } initHomeFragment {
 
         } checkIf {
@@ -45,7 +45,7 @@ class HomeFragmentTest {
     @Test
     fun whenSuccess_shouldShowCategoryList() {
         withDetailFragment {
-            mockCardsResponse(mockWebServer.mockWebServer)
+            mockCardsResponse(mockWebServer.mock)
         } initHomeFragment {
 
         } checkIf {
@@ -60,7 +60,7 @@ class HomeFragmentTest {
     @Test
     fun whenSuccess_shouldShowTypeName() {
         withDetailFragment {
-            mockCardsResponse(mockWebServer.mockWebServer)
+            mockCardsResponse(mockWebServer.mock)
         } initHomeFragment {
 
         } checkIf {
@@ -74,7 +74,7 @@ class HomeFragmentTest {
     @Test
     fun whenSuccess_shouldShowSetName() {
         withDetailFragment {
-            mockCardsResponse(mockWebServer.mockWebServer)
+            mockCardsResponse(mockWebServer.mock)
         } initHomeFragment {
         } checkIf {
 
@@ -87,7 +87,7 @@ class HomeFragmentTest {
     @Test
     fun whenClickOnItem_shouldCallDetail() {
         withDetailFragment {
-            mockCardsResponseWithCode(mockWebServer.mockWebServer, 200)
+            mockCardsResponseWithCode(mockWebServer.mock, 200)
         } initHomeFragment {
             retry {
                 clickOnItemCategoryList()
@@ -103,7 +103,7 @@ class HomeFragmentTest {
     @Test
     fun whenError_shouldNavigateToErrorFragment() {
         withDetailFragment {
-            mockABadCardsResponse(mockWebServer.mockWebServer)
+            mockABadCardsResponse(mockWebServer.mock)
         } initHomeFragment {
         } checkIf {
             retry {
